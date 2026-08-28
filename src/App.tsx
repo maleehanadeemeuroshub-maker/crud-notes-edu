@@ -6,6 +6,8 @@ import { ProgressProvider } from '@/context/ProgressContext'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { ScrollToTop } from '@/components/layout/ScrollToTop'
+import { AmbientBackground } from '@/components/ui/AmbientBackground'
+import { CustomCursor } from '@/components/ui/CustomCursor'
 import { Home } from '@/pages/Home'
 import { Learn } from '@/pages/Learn'
 import { Database } from '@/pages/Database'
@@ -19,10 +21,10 @@ import { NotFound } from '@/pages/NotFound'
 function PageTransition({ children }: { children: ReactNode }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -8 }}
-      transition={{ duration: 0.22, ease: 'easeOut' }}
+      initial={{ opacity: 0, y: 10, scale: 0.995 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, y: -10, scale: 0.995 }}
+      transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
     </motion.div>
@@ -52,7 +54,9 @@ function App() {
   return (
     <ToastProvider>
       <ProgressProvider>
-        <div className="flex min-h-screen flex-col bg-[#0a0d0e]">
+        <div className="flex min-h-screen flex-col bg-base">
+          <AmbientBackground />
+          <CustomCursor />
           <ScrollToTop />
           <Navbar />
           <main className="flex-1">

@@ -12,15 +12,15 @@ interface UserTableProps {
 }
 
 const ROLE_STYLES: Record<string, string> = {
-  admin: 'bg-violet-400/10 text-violet-300 border-violet-400/25',
-  member: 'bg-sky-400/10 text-sky-300 border-sky-400/25',
-  viewer: 'bg-white/[0.06] text-white/55 border-white/12',
+  admin: 'bg-indigo-400/10 text-indigo-600 border-indigo-400/25',
+  member: 'bg-sky-400/10 text-sky-600 border-sky-400/25',
+  viewer: 'bg-slate-900/[0.06] text-slate-900/55 border-slate-900/12',
 }
 
 const STATUS_STYLES: Record<string, string> = {
-  active: 'bg-emerald-400/10 text-emerald-300',
-  invited: 'bg-amber-400/10 text-amber-300',
-  suspended: 'bg-rose-400/10 text-rose-300',
+  active: 'bg-emerald-400/10 text-emerald-600',
+  invited: 'bg-amber-400/10 text-amber-600',
+  suspended: 'bg-rose-400/10 text-rose-600',
 }
 
 export function UserTable({ users, loading, onEdit, onDelete }: UserTableProps) {
@@ -28,7 +28,7 @@ export function UserTable({ users, loading, onEdit, onDelete }: UserTableProps) 
     return (
       <div className="panel space-y-2 rounded-2xl p-4">
         {Array.from({ length: 4 }).map((_, i) => (
-          <div key={i} className="h-14 animate-pulse rounded-xl bg-white/[0.04]" />
+          <div key={i} className="h-14 animate-pulse rounded-xl bg-slate-900/[0.04]" />
         ))}
       </div>
     )
@@ -37,10 +37,10 @@ export function UserTable({ users, loading, onEdit, onDelete }: UserTableProps) 
   if (users.length === 0) {
     return (
       <div className="panel flex flex-col items-center gap-3 rounded-2xl px-6 py-16 text-center">
-        <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/[0.05] text-white/35">
+        <span className="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-900/[0.05] text-slate-900/35">
           <Users className="h-6 w-6" />
         </span>
-        <p className="text-sm font-medium text-white/60">No users match your search.</p>
+        <p className="text-sm font-medium text-slate-900/60">No users match your search.</p>
       </div>
     )
   }
@@ -50,7 +50,7 @@ export function UserTable({ users, loading, onEdit, onDelete }: UserTableProps) 
       <div className="overflow-x-auto">
         <table className="w-full min-w-[600px] border-collapse text-sm">
           <thead>
-            <tr className="border-b border-white/8 text-left text-xs uppercase tracking-wide text-white/40">
+            <tr className="border-b border-slate-900/8 text-left text-xs uppercase tracking-wide text-slate-900/40">
               <th className="px-5 py-3 font-medium">Name</th>
               <th className="px-5 py-3 font-medium">Email</th>
               <th className="px-5 py-3 font-medium">Role</th>
@@ -65,14 +65,14 @@ export function UserTable({ users, loading, onEdit, onDelete }: UserTableProps) 
                 <motion.tr
                   key={user.id}
                   layout
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.94, x: -16, transition: { duration: 0.25, ease: 'easeIn' } }}
                   transition={{ duration: 0.2 }}
-                  className="group border-b border-white/6 last:border-b-0 hover:bg-white/[0.02]"
+                  className="group border-b border-slate-900/6 transition-colors last:border-b-0 hover:bg-slate-900/[0.02]"
                 >
-                  <td className="px-5 py-3 font-medium text-white">{user.name}</td>
-                  <td className="px-5 py-3 text-white/55">{user.email}</td>
+                  <td className="px-5 py-3 font-medium text-slate-900">{user.name}</td>
+                  <td className="px-5 py-3 text-slate-900/55">{user.email}</td>
                   <td className="px-5 py-3">
                     <span className={clsx('rounded-md border px-2 py-0.5 text-xs font-medium capitalize', ROLE_STYLES[user.role])}>
                       {user.role}
@@ -83,20 +83,20 @@ export function UserTable({ users, loading, onEdit, onDelete }: UserTableProps) 
                       {user.status}
                     </span>
                   </td>
-                  <td className="px-5 py-3 text-white/40">{formatDate(user.createdAt)}</td>
+                  <td className="px-5 py-3 text-slate-900/40">{formatDate(user.createdAt)}</td>
                   <td className="px-5 py-3">
                     <div className="flex items-center justify-end gap-1 opacity-0 transition-opacity group-hover:opacity-100">
                       <button
                         onClick={() => onEdit(user)}
                         aria-label={`Edit ${user.name}`}
-                        className="focus-ring rounded-lg p-1.5 text-white/45 transition hover:bg-white/10 hover:text-white"
+                        className="focus-ring rounded-lg p-1.5 text-slate-900/45 transition hover:bg-slate-900/10 hover:text-slate-900"
                       >
                         <Pencil className="h-3.5 w-3.5" />
                       </button>
                       <button
                         onClick={() => onDelete(user)}
                         aria-label={`Delete ${user.name}`}
-                        className="focus-ring rounded-lg p-1.5 text-white/45 transition hover:bg-rose-500/15 hover:text-rose-300"
+                        className="focus-ring rounded-lg p-1.5 text-slate-900/45 transition hover:bg-rose-500/15 hover:text-rose-600"
                       >
                         <Trash2 className="h-3.5 w-3.5" />
                       </button>

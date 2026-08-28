@@ -24,10 +24,18 @@ const ICONS: Record<ToastVariant, typeof CheckCircle2> = {
 }
 
 const RING: Record<ToastVariant, string> = {
-  success: 'border-emerald-400/30 text-emerald-300',
-  error: 'border-rose-400/30 text-rose-300',
-  info: 'border-sky-400/30 text-sky-300',
+  success: 'border-emerald-400/30 text-emerald-600',
+  error: 'border-rose-400/30 text-rose-600',
+  info: 'border-sky-400/30 text-sky-600',
 }
+
+const BAR: Record<ToastVariant, string> = {
+  success: '#34d399',
+  error: '#fb7185',
+  info: '#38bdf8',
+}
+
+const TOAST_DURATION_MS = 3200
 
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([])
@@ -40,7 +48,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     (message: string, variant: ToastVariant = 'success') => {
       const id = generateId()
       setToasts((prev) => [...prev, { id, message, variant }])
-      setTimeout(() => dismiss(id), 3200)
+      setTimeout(() => dismiss(id), TOAST_DURATION_MS)
     },
     [dismiss],
   )
@@ -65,19 +73,27 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 exit={{ opacity: 0, x: 60, scale: 0.9, transition: { duration: 0.2 } }}
                 transition={{ type: 'spring', stiffness: 400, damping: 32 }}
                 role="status"
-                className={`pointer-events-auto flex items-start gap-3 rounded-xl border bg-[#121516]/95 px-4 py-3.5 shadow-2xl shadow-black/40 backdrop-blur-xl ${RING[toast.variant]}`}
+                className={`pointer-events-auto relative flex items-start gap-3 overflow-hidden rounded-xl border bg-elevated/95 px-4 py-3.5 shadow-2xl shadow-black/40 backdrop-blur-xl ${RING[toast.variant]}`}
               >
                 <Icon className="mt-0.5 h-4.5 w-4.5 shrink-0" aria-hidden="true" />
-                <p className="flex-1 text-sm font-medium leading-snug text-white/90">
+                <p className="flex-1 text-sm font-medium leading-snug text-slate-900/90">
                   {toast.message}
                 </p>
                 <button
                   onClick={() => dismiss(toast.id)}
-                  className="rounded-full p-0.5 text-white/40 transition hover:text-white/80"
+                  className="rounded-full p-0.5 text-slate-900/40 transition hover:text-slate-900/80"
                   aria-label="Dismiss notification"
                 >
                   <X className="h-3.5 w-3.5" />
                 </button>
+                <motion.div
+                  initial={{ width: '100%' }}
+                  animate={{ width: '0%' }}
+                  transition={{ duration: TOAST_DURATION_MS / 1000, ease: 'linear' }}
+                  className="absolute bottom-0 left-0 h-0.5 rounded-full"
+                  style={{ background: BAR[toast.variant] }}
+                  aria-hidden="true"
+                />
               </motion.div>
             )
           })}

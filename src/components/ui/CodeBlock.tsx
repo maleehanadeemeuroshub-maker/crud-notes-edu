@@ -22,8 +22,8 @@ export function CodeBlock({ code, language, title }: CodeBlockProps) {
   }
 
   return (
-    <div className="panel overflow-hidden rounded-xl">
-      <div className="flex items-center justify-between border-b border-white/8 bg-white/[0.02] px-4 py-2">
+    <div className="code-surface overflow-hidden rounded-xl">
+      <div className="code-surface-header flex items-center justify-between border-b px-4 py-2">
         <div className="flex items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full bg-rose-400/60" />
           <span className="h-2.5 w-2.5 rounded-full bg-amber-400/60" />

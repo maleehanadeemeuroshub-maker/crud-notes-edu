@@ -16,7 +16,7 @@ interface Token {
 }
 
 const TOKEN_STYLES: Record<Token['type'], string> = {
-  keyword: 'text-violet-400 font-medium',
+  keyword: 'text-indigo-400 font-medium',
   string: 'text-emerald-400',
   number: 'text-amber-300',
   comment: 'text-white/35 italic',

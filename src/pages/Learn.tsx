@@ -25,13 +25,13 @@ export function Learn() {
         />
       </Reveal>
 
-      <div className="sticky top-16 z-10 -mx-4 mb-10 mt-6 overflow-x-auto border-b border-white/8 bg-[#0a0d0e]/90 px-4 py-3 backdrop-blur-xl sm:mx-0 sm:rounded-xl sm:border sm:px-3">
+      <div className="sticky top-16 z-10 -mx-4 mb-10 mt-6 overflow-x-auto border-b border-slate-900/8 bg-base/90 px-4 py-3 backdrop-blur-xl sm:mx-0 sm:rounded-xl sm:border sm:px-3">
         <div className="flex w-max gap-1 sm:w-full sm:justify-between">
           {IN_PAGE_NAV.map((item) => (
             <a
               key={item.id}
               href={`#${item.id}`}
-              className="focus-ring shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-white/50 transition hover:bg-white/[0.06] hover:text-white"
+              className="focus-ring shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium text-slate-900/50 transition hover:bg-slate-900/[0.06] hover:text-slate-900"
             >
               {item.label}
             </a>
@@ -70,7 +70,7 @@ export function Learn() {
         </section>
       </div>
 
-      <div className="mt-16 flex flex-wrap items-center justify-center gap-2 text-xs text-white/30">
+      <div className="mt-16 flex flex-wrap items-center justify-center gap-2 text-xs text-slate-900/30">
         {OPERATIONS.map((op) => (
           <span key={op.id} className="flex items-center gap-1.5">
             <span className="h-1.5 w-1.5 rounded-full" style={{ background: OPERATION_THEME[op.id].accent }} />

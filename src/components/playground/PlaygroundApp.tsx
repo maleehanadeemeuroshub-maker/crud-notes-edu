@@ -89,21 +89,21 @@ export function PlaygroundApp() {
     <div>
       <div className="mb-5 flex flex-wrap items-center gap-3">
         <div className="relative flex-1 min-w-[200px]">
-          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/35" />
+          <Search className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-900/35" />
           <input
             type="search"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search users by name or email..."
             aria-label="Search users"
-            className="focus-ring panel h-10 w-full rounded-lg pl-10 pr-3 text-sm text-white placeholder:text-white/35"
+            className="focus-ring panel h-10 w-full rounded-lg pl-10 pr-3 text-sm text-slate-900 placeholder:text-slate-900/35"
           />
         </div>
         <select
           value={roleFilter}
           onChange={(e) => setRoleFilter(e.target.value as UserRole | 'all')}
           aria-label="Filter by role"
-          className="focus-ring panel h-10 rounded-lg px-3 text-sm text-white/70"
+          className="focus-ring panel h-10 rounded-lg px-3 text-sm text-slate-900/70"
         >
           {ROLE_FILTERS.map((r) => (
             <option key={r} value={r}>
@@ -115,7 +115,7 @@ export function PlaygroundApp() {
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value as UserStatus | 'all')}
           aria-label="Filter by status"
-          className="focus-ring panel h-10 rounded-lg px-3 text-sm text-white/70"
+          className="focus-ring panel h-10 rounded-lg px-3 text-sm text-slate-900/70"
         >
           {STATUS_FILTERS.map((s) => (
             <option key={s} value={s}>
@@ -133,7 +133,7 @@ export function PlaygroundApp() {
         </Button>
       </div>
 
-      <p className="mb-3 text-xs text-white/35">
+      <p className="mb-3 text-xs text-slate-900/35">
         Showing {filteredUsers.length} of {users.length} users
       </p>
 
