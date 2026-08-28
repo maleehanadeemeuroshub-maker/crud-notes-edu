@@ -82,14 +82,14 @@ export function UserFormModal({ open, user, submitting, onClose, onSubmit }: Use
               aria-labelledby="user-form-title"
               className="panel-glass w-full max-w-sm rounded-2xl shadow-2xl"
             >
-              <div className="flex items-center justify-between border-b border-slate-900/8 px-5 py-4">
-                <h2 id="user-form-title" className="text-base font-semibold text-slate-900">
+              <div className="flex items-center justify-between border-b border-white/8 px-5 py-4">
+                <h2 id="user-form-title" className="text-base font-semibold text-white">
                   {user ? 'Edit user' : 'Create user'}
                 </h2>
                 <button
                   onClick={onClose}
                   aria-label="Close"
-                  className="focus-ring rounded-full p-1.5 text-slate-900/50 transition hover:bg-slate-900/10 hover:text-slate-900"
+                  className="focus-ring rounded-full p-1.5 text-white/50 transition hover:bg-white/10 hover:text-white"
                 >
                   <X className="h-4 w-4" />
                 </button>
@@ -104,7 +104,7 @@ export function UserFormModal({ open, user, submitting, onClose, onSubmit }: Use
                 className="space-y-4 px-5 py-5"
               >
                 <motion.div variants={formField}>
-                  <label htmlFor="pg-name" className="mb-1.5 block text-xs font-medium text-slate-900/55">
+                  <label htmlFor="pg-name" className="mb-1.5 block text-xs font-medium text-white/55">
                     Name
                   </label>
                   <input
@@ -114,16 +114,16 @@ export function UserFormModal({ open, user, submitting, onClose, onSubmit }: Use
                     onChange={(e) => setDraft((d) => ({ ...d, name: e.target.value }))}
                     aria-invalid={Boolean(touched && errors.name)}
                     className={clsx(
-                      'focus-ring w-full rounded-lg border bg-slate-900/[0.03] px-3 py-2 text-sm text-slate-900 placeholder:text-slate-900/30 transition-shadow duration-200 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.14)]',
-                      touched && errors.name ? 'border-rose-400/60' : 'border-slate-900/10',
+                      'focus-ring w-full rounded-lg border bg-white/[0.03] px-3 py-2 text-sm text-white placeholder:text-white/30 transition-shadow duration-200 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.14)]',
+                      touched && errors.name ? 'border-rose-400/60' : 'border-white/10',
                     )}
                     placeholder="Jane Doe"
                   />
-                  {touched && errors.name && <p className="mt-1 text-xs text-rose-600">{errors.name}</p>}
+                  {touched && errors.name && <p className="mt-1 text-xs text-rose-400">{errors.name}</p>}
                 </motion.div>
 
                 <motion.div variants={formField}>
-                  <label htmlFor="pg-email" className="mb-1.5 block text-xs font-medium text-slate-900/55">
+                  <label htmlFor="pg-email" className="mb-1.5 block text-xs font-medium text-white/55">
                     Email
                   </label>
                   <input
@@ -133,24 +133,24 @@ export function UserFormModal({ open, user, submitting, onClose, onSubmit }: Use
                     onChange={(e) => setDraft((d) => ({ ...d, email: e.target.value }))}
                     aria-invalid={Boolean(touched && errors.email)}
                     className={clsx(
-                      'focus-ring w-full rounded-lg border bg-slate-900/[0.03] px-3 py-2 text-sm text-slate-900 placeholder:text-slate-900/30 transition-shadow duration-200 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.14)]',
-                      touched && errors.email ? 'border-rose-400/60' : 'border-slate-900/10',
+                      'focus-ring w-full rounded-lg border bg-white/[0.03] px-3 py-2 text-sm text-white placeholder:text-white/30 transition-shadow duration-200 focus:shadow-[0_0_0_3px_rgba(99,102,241,0.14)]',
+                      touched && errors.email ? 'border-rose-400/60' : 'border-white/10',
                     )}
                     placeholder="jane@example.com"
                   />
-                  {touched && errors.email && <p className="mt-1 text-xs text-rose-600">{errors.email}</p>}
+                  {touched && errors.email && <p className="mt-1 text-xs text-rose-400">{errors.email}</p>}
                 </motion.div>
 
                 <motion.div variants={formField} className="grid grid-cols-2 gap-3">
                   <div>
-                    <label htmlFor="pg-role" className="mb-1.5 block text-xs font-medium text-slate-900/55">
+                    <label htmlFor="pg-role" className="mb-1.5 block text-xs font-medium text-white/55">
                       Role
                     </label>
                     <select
                       id="pg-role"
                       value={draft.role}
                       onChange={(e) => setDraft((d) => ({ ...d, role: e.target.value as PlaygroundUserDraft['role'] }))}
-                      className="focus-ring w-full rounded-lg border border-slate-900/10 bg-slate-900/[0.03] px-3 py-2 text-sm text-slate-900"
+                      className="focus-ring w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-white"
                     >
                       <option value="admin">Admin</option>
                       <option value="member">Member</option>
@@ -158,14 +158,14 @@ export function UserFormModal({ open, user, submitting, onClose, onSubmit }: Use
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="pg-status" className="mb-1.5 block text-xs font-medium text-slate-900/55">
+                    <label htmlFor="pg-status" className="mb-1.5 block text-xs font-medium text-white/55">
                       Status
                     </label>
                     <select
                       id="pg-status"
                       value={draft.status}
                       onChange={(e) => setDraft((d) => ({ ...d, status: e.target.value as PlaygroundUserDraft['status'] }))}
-                      className="focus-ring w-full rounded-lg border border-slate-900/10 bg-slate-900/[0.03] px-3 py-2 text-sm text-slate-900"
+                      className="focus-ring w-full rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2 text-sm text-white"
                     >
                       <option value="active">Active</option>
                       <option value="invited">Invited</option>

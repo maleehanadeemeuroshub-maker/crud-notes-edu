@@ -14,7 +14,7 @@ export function CrudTable() {
       <div className="overflow-x-auto">
         <table className="w-full min-w-[560px] border-collapse text-sm">
           <thead>
-            <tr className="border-b border-slate-900/8 text-left text-xs uppercase tracking-wide text-slate-900/40">
+            <tr className="border-b border-white/8 text-left text-xs uppercase tracking-wide text-white/40">
               <th className="px-5 py-3.5 font-medium">Operation</th>
               <th className="px-5 py-3.5 font-medium">Purpose</th>
               <th className="px-5 py-3.5 font-medium">SQL</th>
@@ -30,7 +30,7 @@ export function CrudTable() {
                 <Fragment key={op.id}>
                   <tr
                     onClick={() => setExpanded(isOpen ? null : op.id)}
-                    className="focus-ring cursor-pointer border-b border-slate-900/6 transition-colors last:border-b-0 hover:bg-slate-900/[0.03]"
+                    className="focus-ring cursor-pointer border-b border-white/6 transition-colors last:border-b-0 hover:bg-white/[0.03]"
                     tabIndex={0}
                     role="button"
                     aria-expanded={isOpen}
@@ -49,12 +49,12 @@ export function CrudTable() {
                         >
                           <theme.icon className="h-3.5 w-3.5" />
                         </span>
-                        <span className="font-medium text-slate-900">{op.label}</span>
+                        <span className="font-medium text-white">{op.label}</span>
                       </div>
                     </td>
-                    <td className="px-5 py-3.5 text-slate-900/55">{op.tagline}</td>
+                    <td className="px-5 py-3.5 text-white/55">{op.tagline}</td>
                     <td className="px-5 py-3.5">
-                      <code className="font-mono text-xs text-slate-900/65">{op.sqlKeyword}</code>
+                      <code className="font-mono text-xs text-white/65">{op.sqlKeyword}</code>
                     </td>
                     <td className="px-5 py-3.5">
                       <div className="flex flex-wrap gap-1">
@@ -65,7 +65,7 @@ export function CrudTable() {
                     </td>
                     <td className="px-5 py-3.5 text-right">
                       <ChevronDown
-                        className={`ml-auto h-4 w-4 text-slate-900/35 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                        className={`ml-auto h-4 w-4 text-white/35 transition-transform ${isOpen ? 'rotate-180' : ''}`}
                       />
                     </td>
                   </tr>
@@ -78,12 +78,12 @@ export function CrudTable() {
                             animate={{ height: 'auto', opacity: 1 }}
                             exit={{ height: 0, opacity: 0 }}
                             transition={{ duration: 0.25 }}
-                            className="overflow-hidden bg-slate-900/[0.015]"
+                            className="overflow-hidden bg-white/[0.015]"
                           >
                             <div className="grid gap-3 px-5 py-4 sm:grid-cols-2">
-                              <p className="text-sm leading-relaxed text-slate-900/60">{op.meaning}</p>
-                              <p className="text-sm leading-relaxed text-slate-900/50">
-                                <span className="font-semibold text-slate-900/70">Real-world example: </span>
+                              <p className="text-sm leading-relaxed text-white/60">{op.meaning}</p>
+                              <p className="text-sm leading-relaxed text-white/50">
+                                <span className="font-semibold text-white/70">Real-world example: </span>
                                 {op.realWorldExample}
                               </p>
                             </div>

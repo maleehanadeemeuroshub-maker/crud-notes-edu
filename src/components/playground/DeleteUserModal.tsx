@@ -37,13 +37,13 @@ export function DeleteUserModal({ user, deleting, onCancel, onConfirm }: DeleteU
               aria-labelledby="delete-user-title"
               className="panel-glass w-full max-w-sm rounded-2xl p-6 text-center shadow-2xl"
             >
-              <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500/15 text-rose-600">
+              <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-500/15 text-rose-400">
                 <TriangleAlert className="h-6 w-6" />
               </span>
-              <h2 id="delete-user-title" className="mt-4 text-base font-semibold text-slate-900">
+              <h2 id="delete-user-title" className="mt-4 text-base font-semibold text-white">
                 Delete "{user.name}"?
               </h2>
-              <p className="mt-1.5 text-sm text-slate-900/50">
+              <p className="mt-1.5 text-sm text-white/50">
                 This removes the user from the sample dataset. This action cannot be undone.
               </p>
               <div className="mt-6 flex gap-2">

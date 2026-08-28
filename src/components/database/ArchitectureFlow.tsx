@@ -73,12 +73,12 @@ export function ArchitectureFlow() {
                 className={`focus-ring flex w-full flex-col items-center gap-2 rounded-xl border p-4 transition-all lg:w-auto ${
                   isSelected
                     ? 'border-emerald-400/40 bg-emerald-400/[0.07]'
-                    : 'border-slate-900/8 bg-slate-900/[0.02] hover:bg-slate-900/[0.04]'
+                    : 'border-white/8 bg-white/[0.02] hover:bg-white/[0.04]'
                 }`}
               >
                 <span
                   className={`relative flex h-11 w-11 items-center justify-center rounded-full border ${
-                    isSelected ? 'border-emerald-400/50 text-emerald-600' : 'border-slate-900/15 text-slate-900/55'
+                    isSelected ? 'border-emerald-400/50 text-emerald-400' : 'border-white/15 text-white/55'
                   }`}
                 >
                   <Icon className="h-5 w-5" />
@@ -91,7 +91,7 @@ export function ArchitectureFlow() {
                     />
                   )}
                 </span>
-                <span className="text-xs font-semibold text-slate-900/80">{layer.label}</span>
+                <span className="text-xs font-semibold text-white/80">{layer.label}</span>
               </button>
               {i < LAYERS.length - 1 && (
                 <div className="relative flex h-6 items-center justify-center overflow-hidden lg:h-auto lg:w-8">
@@ -109,7 +109,7 @@ export function ArchitectureFlow() {
                       aria-hidden="true"
                     />
                   )}
-                  <ArrowRight className="relative h-4 w-4 rotate-90 text-slate-900/20 lg:rotate-0" />
+                  <ArrowRight className="relative h-4 w-4 rotate-90 text-white/20 lg:rotate-0" />
                 </div>
               )}
             </div>
@@ -118,18 +118,18 @@ export function ArchitectureFlow() {
       </div>
 
       <div className="mt-2 text-center">
-        <p className="font-mono text-[11px] text-slate-900/30">
+        <p className="font-mono text-[11px] text-white/30">
           {requestPhase ? 'request travelling forward →' : '← response travelling back'}
         </p>
       </div>
 
-      <div className="mt-4 flex items-start gap-3 rounded-xl border border-slate-900/8 bg-slate-900/[0.02] p-4">
-        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-900/[0.06] text-slate-900/60">
+      <div className="mt-4 flex items-start gap-3 rounded-xl border border-white/8 bg-white/[0.02] p-4">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/[0.06] text-white/60">
           <Layers className="h-4 w-4" />
         </span>
         <div>
-          <p className="text-sm font-semibold text-slate-900">{selectedLayer.label}</p>
-          <p className="mt-0.5 text-sm leading-relaxed text-slate-900/55">{selectedLayer.description}</p>
+          <p className="text-sm font-semibold text-white">{selectedLayer.label}</p>
+          <p className="mt-0.5 text-sm leading-relaxed text-white/55">{selectedLayer.description}</p>
         </div>
       </div>
 

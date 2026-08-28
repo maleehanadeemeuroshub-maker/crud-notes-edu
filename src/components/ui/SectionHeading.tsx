@@ -11,12 +11,12 @@ export function SectionHeading({ kicker, title, description, align = 'left' }: S
   return (
     <div className={align === 'center' ? 'mx-auto max-w-2xl text-center' : 'max-w-2xl'}>
       {kicker && (
-        <p className="font-mono mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-indigo-600">
+        <p className="font-mono mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-indigo-400">
           {kicker}
         </p>
       )}
-      <h2 className="text-2xl font-semibold tracking-tight text-slate-900 sm:text-3xl">{title}</h2>
-      {description && <p className="mt-3 text-[15px] leading-relaxed text-slate-900/55">{description}</p>}
+      <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">{title}</h2>
+      {description && <p className="mt-3 text-[15px] leading-relaxed text-white/55">{description}</p>}
     </div>
   )
 }

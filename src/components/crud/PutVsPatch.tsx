@@ -35,8 +35,8 @@ export function PutVsPatch() {
   return (
     <Reveal>
       <div className="panel rounded-2xl p-6">
-        <div className="mb-5 rounded-xl border border-slate-900/8 bg-slate-900/[0.02] p-4">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-900/35">Starting resource</p>
+        <div className="mb-5 rounded-xl border border-white/8 bg-white/[0.02] p-4">
+          <p className="text-xs font-semibold uppercase tracking-wide text-white/35">Starting resource</p>
           <div className="mt-2">
             <CodeBlock code={ORIGINAL_USER} language="json" />
           </div>
@@ -46,9 +46,9 @@ export function PutVsPatch() {
           <div>
             <div className="mb-2 flex items-center gap-2">
               <MethodBadge method="PUT" size="md" />
-              <p className="text-sm font-semibold text-slate-900">Replace the whole thing</p>
+              <p className="text-sm font-semibold text-white">Replace the whole thing</p>
             </div>
-            <p className="mb-3 text-sm leading-relaxed text-slate-900/55">
+            <p className="mb-3 text-sm leading-relaxed text-white/55">
               PUT conventionally represents the resource’s complete new state. Anything you leave out is treated as
               cleared, so the client must send every field — even the ones that didn’t change.
             </p>
@@ -58,9 +58,9 @@ export function PutVsPatch() {
           <div>
             <div className="mb-2 flex items-center gap-2">
               <MethodBadge method="PATCH" size="md" />
-              <p className="text-sm font-semibold text-slate-900">Change just a piece</p>
+              <p className="text-sm font-semibold text-white">Change just a piece</p>
             </div>
-            <p className="mb-3 text-sm leading-relaxed text-slate-900/55">
+            <p className="mb-3 text-sm leading-relaxed text-white/55">
               PATCH sends only what changed. The server merges it into the existing resource, leaving every
               untouched field exactly as it was.
             </p>

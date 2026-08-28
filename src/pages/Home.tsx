@@ -26,7 +26,7 @@ const FLOATING_CHIPS = [
     id: 'create',
     label: 'CREATE',
     icon: FilePlus2,
-    color: '#059669',
+    color: '#34d399',
     wrapClass: 'left-[2%] top-[20%]',
     strength: 20,
     floatDuration: 7,
@@ -37,7 +37,7 @@ const FLOATING_CHIPS = [
     id: 'read',
     label: 'READ',
     icon: ListChecks,
-    color: '#0284c7',
+    color: '#38bdf8',
     wrapClass: 'right-[3%] top-[8%]',
     strength: 24,
     floatDuration: 8,
@@ -48,7 +48,7 @@ const FLOATING_CHIPS = [
     id: 'update',
     label: 'UPDATE',
     icon: RefreshCw,
-    color: '#4f46e5',
+    color: '#818cf8',
     wrapClass: 'left-[7%] bottom-[10%]',
     strength: 16,
     floatDuration: 6.5,
@@ -59,7 +59,7 @@ const FLOATING_CHIPS = [
     id: 'delete',
     label: 'DELETE',
     icon: Trash2,
-    color: '#e11d48',
+    color: '#fb7185',
     wrapClass: 'right-[1%] bottom-[18%]',
     strength: 22,
     floatDuration: 7.5,
@@ -73,7 +73,7 @@ const FLOATING_CHIPS_SECONDARY = [
     id: 'saved',
     label: 'Saved',
     icon: CheckCircle2,
-    color: '#d97706',
+    color: '#fbbf24',
     wrapClass: 'left-[22%] top-[2%]',
     strength: 10,
     floatDuration: 9,
@@ -84,7 +84,7 @@ const FLOATING_CHIPS_SECONDARY = [
     id: 'db',
     label: 'Database',
     icon: Database,
-    color: '#0891b2',
+    color: '#22d3ee',
     wrapClass: 'right-[20%] bottom-[2%]',
     strength: 12,
     floatDuration: 8.5,
@@ -209,7 +209,7 @@ export function Home() {
               </Link>
             </Magnetic>
             <Link to="/playground">
-              <Button variant="secondary" size="lg" className="border-white/15 bg-white/10 text-white hover:bg-white/15">
+              <Button variant="secondary" size="lg">
                 <Database className="h-4 w-4" />
                 Try CRUD Playground
               </Button>
@@ -233,7 +233,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="border-t border-slate-900/8 bg-slate-900/[0.012] py-16 sm:py-20">
+      <section className="border-t border-white/8 bg-white/[0.012] py-16 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Reveal>
             <SectionHeading
@@ -263,10 +263,10 @@ export function Home() {
         </div>
       </section>
 
-      <section className="border-t border-slate-900/8 py-16 sm:py-20">
+      <section className="border-t border-white/8 py-16 sm:py-20">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-          <h2 className="text-2xl font-semibold text-slate-900 sm:text-3xl">Ready to build something?</h2>
-          <p className="mt-3 text-slate-900/50">
+          <h2 className="text-2xl font-semibold text-white sm:text-3xl">Ready to build something?</h2>
+          <p className="mt-3 text-white/50">
             Jump into the interactive playground and practice Create, Read, Update, and Delete on a real dataset.
           </p>
           <Magnetic strength={0.25} className="mt-6 inline-block">

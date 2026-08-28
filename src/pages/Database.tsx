@@ -24,8 +24,8 @@ export function Database() {
       <div className="mt-14 grid gap-8 sm:grid-cols-2">
         <Reveal>
           <div>
-            <h3 className="text-lg font-semibold text-slate-900">Frontend</h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-900/55">
+            <h3 className="text-lg font-semibold text-white">Frontend</h3>
+            <p className="mt-2 text-sm leading-relaxed text-white/55">
               The interface the user actually sees and interacts with — a webpage or mobile screen. It collects
               input, sends requests, and renders whatever comes back.
             </p>
@@ -33,8 +33,8 @@ export function Database() {
         </Reveal>
         <Reveal delay={0.05}>
           <div>
-            <h3 className="text-lg font-semibold text-slate-900">API</h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-900/55">
+            <h3 className="text-lg font-semibold text-white">API</h3>
+            <p className="mt-2 text-sm leading-relaxed text-white/55">
               The contract between frontend and backend — a set of URLs and HTTP methods the frontend can call, each
               one triggering a specific CRUD operation.
             </p>
@@ -42,8 +42,8 @@ export function Database() {
         </Reveal>
         <Reveal delay={0.1}>
           <div>
-            <h3 className="text-lg font-semibold text-slate-900">Backend</h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-900/55">
+            <h3 className="text-lg font-semibold text-white">Backend</h3>
+            <p className="mt-2 text-sm leading-relaxed text-white/55">
               The server-side code that validates requests, checks permissions, applies business rules, and
               translates everything into a database operation.
             </p>
@@ -51,8 +51,8 @@ export function Database() {
         </Reveal>
         <Reveal delay={0.15}>
           <div>
-            <h3 className="text-lg font-semibold text-slate-900">Database</h3>
-            <p className="mt-2 text-sm leading-relaxed text-slate-900/55">
+            <h3 className="text-lg font-semibold text-white">Database</h3>
+            <p className="mt-2 text-sm leading-relaxed text-white/55">
               Persistent storage that survives restarts, enforces data rules, and answers queries — where INSERT,
               SELECT, UPDATE, and DELETE actually run.
             </p>

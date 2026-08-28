@@ -36,30 +36,30 @@ const LINK_GROUPS: { title: string; links: FooterLink[] }[] = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-slate-900/8 bg-deep">
+    <footer className="border-t border-white/8 bg-deep">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           <div className="col-span-2">
             <Link to="/" className="flex items-center gap-2">
               <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10">
-                <Terminal className="h-4 w-4 text-indigo-600" />
+                <Terminal className="h-4 w-4 text-indigo-400" />
               </span>
-              <span className="text-[15px] font-bold text-slate-900">
+              <span className="text-[15px] font-bold text-white">
                 CRUD <span className="text-gradient">Notes</span>
               </span>
             </Link>
-            <p className="mt-3 max-w-xs text-sm leading-relaxed text-slate-900/45">
+            <p className="mt-3 max-w-xs text-sm leading-relaxed text-white/45">
               Understand CRUD. Build better applications.
             </p>
           </div>
           {LINK_GROUPS.map((group) => (
             <div key={group.title}>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-900/35">{group.title}</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-white/35">{group.title}</p>
               <ul className="mt-3 space-y-2">
                 {group.links.map((link) => (
                   <li key={link.label}>
                     {link.to ? (
-                      <Link to={link.to} className="focus-ring text-sm text-slate-900/55 transition hover:text-slate-900">
+                      <Link to={link.to} className="focus-ring text-sm text-white/55 transition hover:text-white">
                         {link.label}
                       </Link>
                     ) : (
@@ -67,7 +67,7 @@ export function Footer() {
                         href={link.href ?? '#'}
                         target="_blank"
                         rel="noreferrer"
-                        className="focus-ring text-sm text-slate-900/55 transition hover:text-slate-900"
+                        className="focus-ring text-sm text-white/55 transition hover:text-white"
                       >
                         {link.label}
                       </a>
@@ -78,7 +78,7 @@ export function Footer() {
             </div>
           ))}
         </div>
-        <div className="mt-10 flex flex-col gap-2 border-t border-slate-900/8 pt-6 text-xs text-slate-900/35 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-2 border-t border-white/8 pt-6 text-xs text-white/35 sm:flex-row sm:items-center sm:justify-between">
           <p>CRUD Notes — a developer learning platform for CRUD operations.</p>
           <p className="font-mono">Create · Read · Update · Delete</p>
         </div>

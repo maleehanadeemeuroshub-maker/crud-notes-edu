@@ -20,11 +20,11 @@ export function RealWorldExamples() {
           return (
             <Reveal key={example.id} delay={i * 0.06}>
               <div className="panel card-interactive h-full rounded-2xl p-6">
-                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900/[0.06] text-slate-900/70">
+                <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white/[0.06] text-white/70">
                   <Icon className="h-5 w-5" />
                 </span>
-                <h3 className="mt-3 text-lg font-semibold text-slate-900">{example.title}</h3>
-                <p className="mt-1 text-sm text-slate-900/45">{example.description}</p>
+                <h3 className="mt-3 text-lg font-semibold text-white">{example.title}</h3>
+                <p className="mt-1 text-sm text-white/45">{example.description}</p>
                 <ul className="mt-4 space-y-2.5">
                   {example.operations.map((op) => {
                     const theme = OPERATION_THEME[op.operation]
@@ -36,7 +36,7 @@ export function RealWorldExamples() {
                         >
                           {op.operation}
                         </span>
-                        <span className="text-sm leading-snug text-slate-900/60">{op.action}</span>
+                        <span className="text-sm leading-snug text-white/60">{op.action}</span>
                       </li>
                     )
                   })}

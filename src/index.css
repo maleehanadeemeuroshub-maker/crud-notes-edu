@@ -3,13 +3,13 @@
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-  --color-base: #f6f5fc;
-  --color-elevated: #ffffff;
-  --color-deep: #eeecf8;
+  --color-base: #14122a;
+  --color-elevated: #1c1a38;
+  --color-deep: #0f0d21;
 }
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 html,
@@ -21,18 +21,18 @@ body,
 body {
   font-family: var(--font-sans);
   background: var(--color-base);
-  color: #0f172a;
+  color: #f2f1fb;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
 ::selection {
-  background: rgba(99, 102, 241, 0.24);
-  color: #1e1b4b;
+  background: rgba(129, 140, 248, 0.3);
+  color: #ffffff;
 }
 
 * {
-  scrollbar-color: rgba(100, 116, 139, 0.35) transparent;
+  scrollbar-color: rgba(165, 180, 252, 0.28) transparent;
 }
 ::-webkit-scrollbar {
   width: 10px;
@@ -42,13 +42,13 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.3);
+  background: rgba(165, 180, 252, 0.22);
   border-radius: 999px;
   border: 2px solid transparent;
   background-clip: padding-box;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.48);
+  background: rgba(165, 180, 252, 0.38);
   background-clip: padding-box;
 }
 
@@ -57,14 +57,14 @@ body {
 }
 
 .panel {
-  background: #ffffff;
-  border: 1px solid rgba(79, 70, 229, 0.1);
-  box-shadow: 0 1px 2px rgba(49, 46, 129, 0.04);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: none;
 }
 
 .panel-glass {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.85));
-  border: 1px solid rgba(79, 70, 229, 0.1);
+  background: linear-gradient(180deg, rgba(37, 34, 68, 0.88), rgba(24, 22, 46, 0.92));
+  border: 1px solid rgba(255, 255, 255, 0.09);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -90,14 +90,14 @@ body {
   outline: none;
 }
 .focus-ring:focus-visible {
-  outline: 2px solid rgba(99, 102, 241, 0.75);
+  outline: 2px solid rgba(129, 140, 248, 0.8);
   outline-offset: 2px;
 }
 
 .grid-fade {
   background-image:
-    linear-gradient(rgba(79, 70, 229, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(79, 70, 229, 0.06) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 44px 44px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
   animation: grid-pan 60s linear infinite;
@@ -122,8 +122,8 @@ body {
 }
 .card-interactive:hover {
   transform: translateY(-4px) scale(1.012);
-  box-shadow: 0 24px 48px -24px rgba(15, 23, 42, 0.22);
-  border-color: rgba(15, 23, 42, 0.14);
+  box-shadow: 0 24px 48px -20px rgba(99, 102, 241, 0.35);
+  border-color: rgba(255, 255, 255, 0.18);
 }
 
 /* Ambient background blobs */
@@ -138,7 +138,7 @@ body {
   position: absolute;
   border-radius: 9999px;
   filter: blur(90px);
-  opacity: 0.22;
+  opacity: 0.16;
   will-change: transform;
 }
 .ambient-blob-a {

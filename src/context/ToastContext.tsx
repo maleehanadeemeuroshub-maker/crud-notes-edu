@@ -24,9 +24,9 @@ const ICONS: Record<ToastVariant, typeof CheckCircle2> = {
 }
 
 const RING: Record<ToastVariant, string> = {
-  success: 'border-emerald-400/30 text-emerald-600',
-  error: 'border-rose-400/30 text-rose-600',
-  info: 'border-sky-400/30 text-sky-600',
+  success: 'border-emerald-400/30 text-emerald-400',
+  error: 'border-rose-400/30 text-rose-400',
+  info: 'border-sky-400/30 text-sky-400',
 }
 
 const BAR: Record<ToastVariant, string> = {
@@ -76,12 +76,12 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 className={`pointer-events-auto relative flex items-start gap-3 overflow-hidden rounded-xl border bg-elevated/95 px-4 py-3.5 shadow-2xl shadow-black/40 backdrop-blur-xl ${RING[toast.variant]}`}
               >
                 <Icon className="mt-0.5 h-4.5 w-4.5 shrink-0" aria-hidden="true" />
-                <p className="flex-1 text-sm font-medium leading-snug text-slate-900/90">
+                <p className="flex-1 text-sm font-medium leading-snug text-white/90">
                   {toast.message}
                 </p>
                 <button
                   onClick={() => dismiss(toast.id)}
-                  className="rounded-full p-0.5 text-slate-900/40 transition hover:text-slate-900/80"
+                  className="rounded-full p-0.5 text-white/40 transition hover:text-white/80"
                   aria-label="Dismiss notification"
                 >
                   <X className="h-3.5 w-3.5" />

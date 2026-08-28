@@ -23,13 +23,13 @@ export function Navbar() {
   useEscapeKey(() => setMobileOpen(false), mobileOpen)
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-900/8 bg-base/85 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-white/8 bg-base/85 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-4 sm:px-6">
         <NavLink to="/" className="flex items-center gap-2 shrink-0" aria-label="CRUD Notes home">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10">
-            <Terminal className="h-4 w-4 text-indigo-600" aria-hidden="true" />
+            <Terminal className="h-4 w-4 text-indigo-400" aria-hidden="true" />
           </span>
-          <span className="text-[15px] font-bold tracking-tight text-slate-900">
+          <span className="text-[15px] font-bold tracking-tight text-white">
             CRUD <span className="text-gradient">Notes</span>
           </span>
         </NavLink>
@@ -48,7 +48,7 @@ export function Navbar() {
               className={({ isActive }) =>
                 clsx(
                   'focus-ring relative rounded-lg px-3 py-2 text-[13px] font-medium transition-colors',
-                  isActive ? 'text-slate-900' : 'text-slate-900/55 hover:text-slate-900/90',
+                  isActive ? 'text-white' : 'text-white/55 hover:text-white/90',
                 )
               }
             >
@@ -58,7 +58,7 @@ export function Navbar() {
                     <motion.span
                       layoutId="nav-pill"
                       transition={{ type: 'spring', stiffness: 420, damping: 34 }}
-                      className="absolute inset-0 rounded-lg bg-slate-900/8"
+                      className="absolute inset-0 rounded-lg bg-white/8"
                     />
                   )}
                   <span className="relative">{label}</span>
@@ -72,7 +72,7 @@ export function Navbar() {
           <NavLink
             to="/notes"
             aria-label="Search notes"
-            className="focus-ring hidden h-9 w-9 items-center justify-center rounded-lg text-slate-900/45 transition hover:bg-slate-900/[0.06] hover:text-slate-900 sm:flex"
+            className="focus-ring hidden h-9 w-9 items-center justify-center rounded-lg text-white/45 transition hover:bg-white/[0.06] hover:text-white sm:flex"
           >
             <Search className="h-4 w-4" />
           </NavLink>
@@ -85,7 +85,7 @@ export function Navbar() {
           <button
             onClick={() => setMobileOpen(true)}
             aria-label="Open menu"
-            className="focus-ring flex h-9 w-9 items-center justify-center rounded-lg text-slate-900/60 transition hover:bg-slate-900/[0.06] hover:text-slate-900 lg:hidden"
+            className="focus-ring flex h-9 w-9 items-center justify-center rounded-lg text-white/60 transition hover:bg-white/[0.06] hover:text-white lg:hidden"
           >
             <Menu className="h-5 w-5" />
           </button>
@@ -111,14 +111,14 @@ export function Navbar() {
               role="dialog"
               aria-modal="true"
               aria-label="Navigation menu"
-              className="fixed inset-y-0 right-0 z-50 flex w-[82%] max-w-xs flex-col border-l border-slate-900/10 bg-elevated p-5 lg:hidden"
+              className="fixed inset-y-0 right-0 z-50 flex w-[82%] max-w-xs flex-col border-l border-white/10 bg-elevated p-5 lg:hidden"
             >
               <div className="mb-6 flex items-center justify-between">
-                <span className="text-sm font-bold text-slate-900">Menu</span>
+                <span className="text-sm font-bold text-white">Menu</span>
                 <button
                   onClick={() => setMobileOpen(false)}
                   aria-label="Close menu"
-                  className="focus-ring rounded-lg p-1.5 text-slate-900/50 hover:bg-slate-900/[0.06] hover:text-slate-900"
+                  className="focus-ring rounded-lg p-1.5 text-white/50 hover:bg-white/[0.06] hover:text-white"
                 >
                   <X className="h-4.5 w-4.5" />
                 </button>
@@ -133,7 +133,7 @@ export function Navbar() {
                     className={({ isActive }) =>
                       clsx(
                         'focus-ring rounded-lg px-3 py-2.5 text-sm font-medium transition-colors',
-                        isActive ? 'bg-slate-900/8 text-slate-900' : 'text-slate-900/60 hover:bg-slate-900/[0.05] hover:text-slate-900/90',
+                        isActive ? 'bg-white/8 text-white' : 'text-white/60 hover:bg-white/[0.05] hover:text-white/90',
                       )
                     }
                   >

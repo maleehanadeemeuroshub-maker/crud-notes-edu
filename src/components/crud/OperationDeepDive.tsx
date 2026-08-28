@@ -31,25 +31,25 @@ export function OperationDeepDive({ operation, reverse = false }: OperationDeepD
                 <p className="font-mono text-xs font-semibold uppercase tracking-wide" style={{ color: theme.accent }}>
                   {operation.sqlKeyword} · {operation.httpMethods.join(' / ')}
                 </p>
-                <h3 className="text-2xl font-semibold text-slate-900">{operation.label}</h3>
+                <h3 className="text-2xl font-semibold text-white">{operation.label}</h3>
               </div>
             </div>
 
-            <p className="mt-4 text-[15px] leading-relaxed text-slate-900/65">{operation.meaning}</p>
-            <p className="mt-3 text-[15px] leading-relaxed text-slate-900/50">{operation.dbAction}</p>
+            <p className="mt-4 text-[15px] leading-relaxed text-white/65">{operation.meaning}</p>
+            <p className="mt-3 text-[15px] leading-relaxed text-white/50">{operation.dbAction}</p>
 
-            <div className="mt-5 rounded-xl border border-slate-900/8 bg-slate-900/[0.02] p-4">
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-900/35">When to use it</p>
-              <p className="mt-1.5 text-sm leading-relaxed text-slate-900/65">{operation.whenToUse}</p>
+            <div className="mt-5 rounded-xl border border-white/8 bg-white/[0.02] p-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-white/35">When to use it</p>
+              <p className="mt-1.5 text-sm leading-relaxed text-white/65">{operation.whenToUse}</p>
             </div>
 
             <div className="mt-4 flex flex-wrap items-center gap-2">
               {operation.flow.map((step, i) => (
                 <span key={step} className="flex items-center gap-2">
-                  <span className="rounded-md border border-slate-900/10 bg-slate-900/[0.03] px-2.5 py-1 text-xs text-slate-900/55">
+                  <span className="rounded-md border border-white/10 bg-white/[0.03] px-2.5 py-1 text-xs text-white/55">
                     {step}
                   </span>
-                  {i < operation.flow.length - 1 && <ArrowRight className="h-3 w-3 text-slate-900/20" />}
+                  {i < operation.flow.length - 1 && <ArrowRight className="h-3 w-3 text-white/20" />}
                 </span>
               ))}
             </div>
