@@ -1,0 +1,96 @@
+import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
+import { ArrowRight } from 'lucide-react'
+import { OPERATIONS } from '@/data/operations'
+import { OPERATION_THEME } from '@/data/operationTheme'
+import { MethodBadge } from '@/components/ui/MethodBadge'
+import type { OperationId } from '@/types/crud'
+
+export function CrudFlowStack() {
+  const [active, setActive] = useState<OperationId>('create')
+  const activeOp = OPERATIONS.find((o) => o.id === active)!
+  const theme = OPERATION_THEME[active]
+
+  return (
+    <div className="grid gap-6 lg:grid-cols-[280px_1fr]">
+      <div className="flex flex-row gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0">
+        {OPERATIONS.map((op, i) => {
+          const opTheme = OPERATION_THEME[op.id]
+          const Icon = opTheme.icon
+          const isActive = active === op.id
+          return (
+            <div key={op.id} className="flex shrink-0 items-center gap-2 lg:shrink lg:flex-col lg:items-stretch">
+              <button
+                onClick={() => setActive(op.id)}
+                aria-pressed={isActive}
+                className="focus-ring group relative w-full min-w-[150px] rounded-xl border p-3.5 text-left transition-all lg:min-w-0"
+                style={{
+                  borderColor: isActive ? opTheme.border : 'rgba(255,255,255,0.08)',
+                  background: isActive ? opTheme.accentSoft : 'rgba(255,255,255,0.02)',
+                }}
+              >
+                <div className="flex items-center gap-2.5">
+                  <span
+                    className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+                    style={{ background: opTheme.accentSoft, color: opTheme.accent }}
+                  >
+                    <Icon className="h-4 w-4" />
+                  </span>
+                  <div>
+                    <p className="font-mono text-[13px] font-bold text-white">{op.verb}</p>
+                    <p className="text-[11px] text-white/40">{op.sqlKeyword}</p>
+                  </div>
+                </div>
+              </button>
+              {i < OPERATIONS.length - 1 && (
+                <ArrowRight className="hidden h-4 w-4 shrink-0 rotate-90 text-white/20 lg:block lg:self-center" />
+              )}
+            </div>
+          )
+        })}
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={active}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -12 }}
+          transition={{ duration: 0.25 }}
+          className="panel rounded-2xl p-6"
+        >
+          <div className="flex flex-wrap items-center gap-3">
+            <span
+              className="flex h-11 w-11 items-center justify-center rounded-xl"
+              style={{ background: theme.accentSoft, color: theme.accent }}
+            >
+              <theme.icon className="h-5 w-5" />
+            </span>
+            <div>
+              <h3 className="text-lg font-semibold text-white">{activeOp.label}</h3>
+              <p className="text-sm text-white/45">{activeOp.tagline}</p>
+            </div>
+            <div className="ml-auto flex items-center gap-1.5">
+              {activeOp.httpMethods.map((m) => (
+                <MethodBadge key={m} method={m} />
+              ))}
+            </div>
+          </div>
+
+          <p className="mt-4 text-sm leading-relaxed text-white/65">{activeOp.meaning}</p>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-lg border border-white/8 bg-white/[0.02] p-3">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-white/35">Database action</p>
+              <p className="font-mono mt-1 text-sm text-white/75">{activeOp.sqlKeyword}</p>
+            </div>
+            <div className="rounded-lg border border-white/8 bg-white/[0.02] p-3">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-white/35">Example</p>
+              <p className="mt-1 text-sm text-white/75">{activeOp.realWorldExample}</p>
+            </div>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    </div>
+  )
+}
