@@ -3,9 +3,12 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ToastProvider } from '@/context/ToastContext'
 import { ProgressProvider } from '@/context/ProgressContext'
+import { AuthProvider } from '@/context/AuthContext'
 import { Navbar } from '@/components/layout/Navbar'
 import { Footer } from '@/components/layout/Footer'
 import { ScrollToTop } from '@/components/layout/ScrollToTop'
+import { ProtectedRoute } from '@/components/layout/ProtectedRoute'
+import { GuestRoute } from '@/components/layout/GuestRoute'
 import { AmbientBackground } from '@/components/ui/AmbientBackground'
 import { CustomCursor } from '@/components/ui/CustomCursor'
 import { Home } from '@/pages/Home'
@@ -16,6 +19,12 @@ import { Sql } from '@/pages/Sql'
 import { Playground } from '@/pages/Playground'
 import { Quiz } from '@/pages/Quiz'
 import { Notes } from '@/pages/Notes'
+import { Login } from '@/pages/Login'
+import { Register } from '@/pages/Register'
+import { ForgotPassword } from '@/pages/ForgotPassword'
+import { ResetPassword } from '@/pages/ResetPassword'
+import { Dashboard } from '@/pages/Dashboard'
+import { Settings } from '@/pages/Settings'
 import { NotFound } from '@/pages/NotFound'
 
 function PageTransition({ children }: { children: ReactNode }) {
@@ -44,6 +53,54 @@ function AnimatedRoutes() {
         <Route path="/playground" element={<PageTransition><Playground /></PageTransition>} />
         <Route path="/quiz" element={<PageTransition><Quiz /></PageTransition>} />
         <Route path="/notes" element={<PageTransition><Notes /></PageTransition>} />
+        <Route
+          path="/login"
+          element={
+            <PageTransition>
+              <GuestRoute><Login /></GuestRoute>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/register"
+          element={
+            <PageTransition>
+              <GuestRoute><Register /></GuestRoute>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <PageTransition>
+              <GuestRoute><ForgotPassword /></GuestRoute>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <PageTransition>
+              <GuestRoute><ResetPassword /></GuestRoute>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <PageTransition>
+              <ProtectedRoute><Dashboard /></ProtectedRoute>
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <PageTransition>
+              <ProtectedRoute><Settings /></ProtectedRoute>
+            </PageTransition>
+          }
+        />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>
@@ -53,18 +110,20 @@ function AnimatedRoutes() {
 function App() {
   return (
     <ToastProvider>
-      <ProgressProvider>
-        <div className="flex min-h-screen flex-col bg-base">
-          <AmbientBackground />
-          <CustomCursor />
-          <ScrollToTop />
-          <Navbar />
-          <main className="flex-1">
-            <AnimatedRoutes />
-          </main>
-          <Footer />
-        </div>
-      </ProgressProvider>
+      <AuthProvider>
+        <ProgressProvider>
+          <div className="flex min-h-screen flex-col bg-base">
+            <AmbientBackground />
+            <CustomCursor />
+            <ScrollToTop />
+            <Navbar />
+            <main className="flex-1">
+              <AnimatedRoutes />
+            </main>
+            <Footer />
+          </div>
+        </ProgressProvider>
+      </AuthProvider>
     </ToastProvider>
   )
 }

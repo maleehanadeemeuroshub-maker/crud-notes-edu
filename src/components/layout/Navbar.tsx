@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Database, Menu, Search, Terminal, X } from 'lucide-react'
+import { Database, LayoutDashboard, LogOut, Menu, Search, Settings, Terminal, X } from 'lucide-react'
 import clsx from 'clsx'
 import { useEscapeKey } from '@/hooks/useEscapeKey'
+import { useAuth } from '@/context/AuthContext'
+import { useToast } from '@/context/ToastContext'
 import { Button } from '@/components/ui/Button'
 
 const NAV_ITEMS = [
@@ -21,6 +23,16 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [hovered, setHovered] = useState<string | null>(null)
   useEscapeKey(() => setMobileOpen(false), mobileOpen)
+  const { status, logout } = useAuth()
+  const { showToast } = useToast()
+  const navigate = useNavigate()
+
+  async function handleLogout() {
+    setMobileOpen(false)
+    await logout()
+    showToast('Signed out.', 'info')
+    navigate('/')
+  }
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/8 bg-base/85 backdrop-blur-xl">
@@ -82,6 +94,36 @@ export function Navbar() {
               Try Playground
             </Button>
           </NavLink>
+          {status === 'authenticated' ? (
+            <div className="hidden items-center gap-1.5 lg:flex">
+              <NavLink to="/dashboard">
+                <Button size="sm" variant="secondary">
+                  <LayoutDashboard className="h-3.5 w-3.5" />
+                  Dashboard
+                </Button>
+              </NavLink>
+              <NavLink
+                to="/settings"
+                aria-label="Settings"
+                className="focus-ring flex h-9 w-9 items-center justify-center rounded-lg text-white/45 transition hover:bg-white/[0.06] hover:text-white"
+              >
+                <Settings className="h-4 w-4" />
+              </NavLink>
+              <button
+                onClick={handleLogout}
+                aria-label="Log out"
+                className="focus-ring flex h-9 w-9 items-center justify-center rounded-lg text-white/45 transition hover:bg-white/[0.06] hover:text-white"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </div>
+          ) : (
+            <NavLink to="/login" className="hidden lg:block">
+              <Button size="sm" variant="secondary">
+                Log in
+              </Button>
+            </NavLink>
+          )}
           <button
             onClick={() => setMobileOpen(true)}
             aria-label="Open menu"
@@ -147,6 +189,39 @@ export function Navbar() {
                   Try Playground
                 </Button>
               </NavLink>
+              {status === 'authenticated' ? (
+                <div className="mt-2 flex flex-col gap-2">
+                  <NavLink to="/dashboard" onClick={() => setMobileOpen(false)}>
+                    <Button className="w-full" size="md" variant="secondary">
+                      <LayoutDashboard className="h-4 w-4" />
+                      Dashboard
+                    </Button>
+                  </NavLink>
+                  <NavLink to="/settings" onClick={() => setMobileOpen(false)}>
+                    <Button className="w-full" size="md" variant="secondary">
+                      <Settings className="h-4 w-4" />
+                      Settings
+                    </Button>
+                  </NavLink>
+                  <Button className="w-full" size="md" variant="ghost" onClick={handleLogout}>
+                    <LogOut className="h-4 w-4" />
+                    Log out
+                  </Button>
+                </div>
+              ) : (
+                <div className="mt-2 flex flex-col gap-2">
+                  <NavLink to="/login" onClick={() => setMobileOpen(false)}>
+                    <Button className="w-full" size="md" variant="secondary">
+                      Log in
+                    </Button>
+                  </NavLink>
+                  <NavLink to="/register" onClick={() => setMobileOpen(false)}>
+                    <Button className="w-full" size="md" variant="ghost">
+                      Sign up
+                    </Button>
+                  </NavLink>
+                </div>
+              )}
             </motion.div>
           </>
         )}

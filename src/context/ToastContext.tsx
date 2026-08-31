@@ -5,14 +5,20 @@ import { generateId } from '@/utils/id'
 
 type ToastVariant = 'success' | 'error' | 'info'
 
+interface ToastAction {
+  label: string
+  onClick: () => void
+}
+
 interface ToastItem {
   id: string
   message: string
   variant: ToastVariant
+  action?: ToastAction
 }
 
 interface ToastContextValue {
-  showToast: (message: string, variant?: ToastVariant) => void
+  showToast: (message: string, variant?: ToastVariant, action?: ToastAction) => void
 }
 
 const ToastContext = createContext<ToastContextValue | null>(null)
@@ -45,9 +51,9 @@ export function ToastProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const showToast = useCallback(
-    (message: string, variant: ToastVariant = 'success') => {
+    (message: string, variant: ToastVariant = 'success', action?: ToastAction) => {
       const id = generateId()
-      setToasts((prev) => [...prev, { id, message, variant }])
+      setToasts((prev) => [...prev, { id, message, variant, action }])
       setTimeout(() => dismiss(id), TOAST_DURATION_MS)
     },
     [dismiss],
@@ -76,9 +82,20 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 className={`pointer-events-auto relative flex items-start gap-3 overflow-hidden rounded-xl border bg-elevated/95 px-4 py-3.5 shadow-2xl shadow-black/40 backdrop-blur-xl ${RING[toast.variant]}`}
               >
                 <Icon className="mt-0.5 h-4.5 w-4.5 shrink-0" aria-hidden="true" />
-                <p className="flex-1 text-sm font-medium leading-snug text-white/90">
-                  {toast.message}
-                </p>
+                <div className="flex-1">
+                  <p className="text-sm font-medium leading-snug text-white/90">{toast.message}</p>
+                  {toast.action && (
+                    <button
+                      onClick={() => {
+                        toast.action?.onClick()
+                        dismiss(toast.id)
+                      }}
+                      className="mt-1 text-xs font-semibold text-indigo-300 underline-offset-2 hover:underline"
+                    >
+                      {toast.action.label}
+                    </button>
+                  )}
+                </div>
                 <button
                   onClick={() => dismiss(toast.id)}
                   className="rounded-full p-0.5 text-white/40 transition hover:text-white/80"
