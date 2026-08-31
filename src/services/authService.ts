@@ -18,6 +18,7 @@ export function toAuthUser(user: User): AuthUser {
     id: user.id,
     fullName: (user.user_metadata?.full_name as string | undefined) ?? '',
     email: user.email ?? '',
+    avatarUrl: (user.user_metadata?.avatar_url as string | undefined) ?? null,
     createdAt: user.created_at,
   }
 }
@@ -55,6 +56,12 @@ export const authService = {
 
   async updateProfile({ fullName }: UpdateProfilePayload): Promise<AuthUser> {
     const { data, error } = await supabase.auth.updateUser({ data: { full_name: fullName } })
+    if (error) throw new Error(error.message)
+    return toAuthUser(data.user)
+  },
+
+  async updateAvatar(avatarUrl: string): Promise<AuthUser> {
+    const { data, error } = await supabase.auth.updateUser({ data: { avatar_url: avatarUrl } })
     if (error) throw new Error(error.message)
     return toAuthUser(data.user)
   },

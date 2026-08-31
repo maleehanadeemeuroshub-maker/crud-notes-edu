@@ -37,9 +37,19 @@ export interface AppNote {
   attachments: NoteAttachment[]
   pinned: boolean
   favorite: boolean
+  shareId: string | null
+  shareEnabled: boolean
   deletedAt: string | null
   createdAt: string
   updatedAt: string
+}
+
+export interface NoteVersion {
+  id: string
+  noteId: string
+  title: string
+  content: string
+  createdAt: string
 }
 
 export interface NoteDraft {

@@ -23,7 +23,7 @@ export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [hovered, setHovered] = useState<string | null>(null)
   useEscapeKey(() => setMobileOpen(false), mobileOpen)
-  const { status, logout } = useAuth()
+  const { user, status, logout } = useAuth()
   const { showToast } = useToast()
   const navigate = useNavigate()
 
@@ -105,9 +105,13 @@ export function Navbar() {
               <NavLink
                 to="/settings"
                 aria-label="Settings"
-                className="focus-ring flex h-9 w-9 items-center justify-center rounded-lg text-white/45 transition hover:bg-white/[0.06] hover:text-white"
+                className="focus-ring flex h-9 w-9 items-center justify-center overflow-hidden rounded-full text-white/45 transition hover:bg-white/[0.06] hover:text-white"
               >
-                <Settings className="h-4 w-4" />
+                {user?.avatarUrl ? (
+                  <img src={user.avatarUrl} alt="" className="h-7 w-7 rounded-full object-cover" />
+                ) : (
+                  <Settings className="h-4 w-4" />
+                )}
               </NavLink>
               <button
                 onClick={handleLogout}

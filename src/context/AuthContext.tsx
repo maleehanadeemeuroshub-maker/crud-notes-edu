@@ -19,6 +19,7 @@ interface AuthContextValue {
   login: (payload: LoginPayload) => Promise<void>
   logout: () => Promise<void>
   updateProfile: (payload: UpdateProfilePayload) => Promise<void>
+  updateAvatar: (avatarUrl: string) => Promise<void>
   changePassword: (payload: ChangePasswordPayload) => Promise<void>
   deleteAllDataAndSignOut: () => Promise<void>
 }
@@ -62,6 +63,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(updated)
   }, [])
 
+  const updateAvatar = useCallback(async (avatarUrl: string) => {
+    const updated = await authService.updateAvatar(avatarUrl)
+    setUser(updated)
+  }, [])
+
   const changePassword = useCallback(async (payload: ChangePasswordPayload) => {
     await authService.changePassword(payload)
   }, [])
@@ -72,7 +78,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, status, register, login, logout, updateProfile, changePassword, deleteAllDataAndSignOut }}
+      value={{ user, status, register, login, logout, updateProfile, updateAvatar, changePassword, deleteAllDataAndSignOut }}
     >
       {children}
     </AuthContext.Provider>

@@ -18,7 +18,9 @@ import { EmptyState } from '@/components/dashboard/EmptyState'
 import { StatsStrip } from '@/components/dashboard/StatsStrip'
 import { ViewToggle } from '@/components/dashboard/ViewToggle'
 import { BulkActionBar } from '@/components/dashboard/BulkActionBar'
-import type { AppNote, NoteCategory, NoteViewMode } from '@/types/appNote'
+import { ExportImportMenu } from '@/components/dashboard/ExportImportMenu'
+import { TagsPanel } from '@/components/dashboard/TagsPanel'
+import type { AppNote, NoteCategory, NoteVersion, NoteViewMode } from '@/types/appNote'
 
 export function Dashboard() {
   const { user, logout } = useAuth()
@@ -187,6 +189,46 @@ export function Dashboard() {
     showToast('Signed out.', 'info')
   }
 
+  async function handleEnableShare() {
+    if (!editingNote) throw new Error('No note selected.')
+    try {
+      return await notesState.enableShare(editingNote.id)
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Could not enable sharing.', 'error')
+      throw err
+    }
+  }
+
+  async function handleDisableShare() {
+    if (!editingNote) return
+    try {
+      await notesState.disableShare(editingNote.id)
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Could not disable sharing.', 'error')
+    }
+  }
+
+  async function handleRestoreVersion(version: NoteVersion) {
+    if (!editingNote) return
+    try {
+      await notesState.updateNote(editingNote.id, {
+        title: version.title,
+        content: version.content,
+        category: editingNote.category,
+        priority: editingNote.priority,
+        color: editingNote.color,
+        tags: editingNote.tags,
+      })
+      showToast('Version restored.', 'success')
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Could not restore that version.', 'error')
+    }
+  }
+
+  async function handleImport(drafts: Parameters<typeof notesState.importNotes>[0]) {
+    return notesState.importNotes(drafts)
+  }
+
   const gridClass = viewMode === 'grid' ? 'grid gap-4 sm:grid-cols-2 lg:grid-cols-3' : 'flex flex-col gap-3'
 
   return (
@@ -274,6 +316,12 @@ export function Dashboard() {
               <FilterBar filters={notesState.filters} onChange={notesState.setFilters} searchRef={searchInputRef} />
             </div>
             <div className="flex shrink-0 items-center gap-2">
+              <ExportImportMenu
+                notes={notesState.notes}
+                onImport={handleImport}
+                onImported={(count) => showToast(`Imported ${count} note${count === 1 ? '' : 's'}.`, 'success')}
+                onError={(message) => showToast(message, 'error')}
+              />
               <ViewToggle value={viewMode} onChange={setViewMode} />
               <Button
                 size="sm"
@@ -297,6 +345,17 @@ export function Dashboard() {
               />
             )}
           </AnimatePresence>
+
+          {notesState.tagCounts.length > 0 && (
+            <div className="mt-4">
+              <TagsPanel
+                tagCounts={notesState.tagCounts}
+                activeTag={notesState.filters.search}
+                onFilterByTag={(tag) => notesState.setFilters({ ...notesState.filters, search: tag })}
+                onRenameTag={notesState.renameTag}
+              />
+            </div>
+          )}
 
           <div className="mt-6">
             {notesState.loading ? (
@@ -408,6 +467,9 @@ export function Dashboard() {
         onSave={handleSave}
         onUploadAttachment={handleUploadAttachment}
         onRemoveAttachment={handleRemoveAttachment}
+        onEnableShare={handleEnableShare}
+        onDisableShare={handleDisableShare}
+        onRestoreVersion={handleRestoreVersion}
       />
     </>
   )

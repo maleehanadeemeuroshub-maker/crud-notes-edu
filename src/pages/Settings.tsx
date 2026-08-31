@@ -1,6 +1,6 @@
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Loader2, Trash2, User } from 'lucide-react'
+import { Camera, Loader2, Trash2, User } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useToast } from '@/context/ToastContext'
 import { Reveal } from '@/components/ui/Reveal'
@@ -10,15 +10,34 @@ import { FormField } from '@/components/auth/FormField'
 import { TextInput } from '@/components/auth/TextInput'
 import { PasswordInput } from '@/components/auth/PasswordInput'
 import { ConfirmButton } from '@/components/dashboard/ConfirmButton'
+import { uploadAvatar } from '@/lib/avatarUpload'
 
 export function Settings() {
-  const { user, updateProfile, changePassword, deleteAllDataAndSignOut } = useAuth()
+  const { user, updateProfile, updateAvatar, changePassword, deleteAllDataAndSignOut } = useAuth()
   const { showToast } = useToast()
   const navigate = useNavigate()
 
   const [fullName, setFullName] = useState(user?.fullName ?? '')
   const [profileError, setProfileError] = useState<string | null>(null)
   const [profileSaving, setProfileSaving] = useState(false)
+  const [avatarUploading, setAvatarUploading] = useState(false)
+  const avatarInputRef = useRef<HTMLInputElement>(null)
+
+  async function handleAvatarChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = ''
+    if (!file || !user) return
+    setAvatarUploading(true)
+    try {
+      const url = await uploadAvatar(user.id, file)
+      await updateAvatar(url)
+      showToast('Avatar updated.', 'success')
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : 'Could not update avatar.', 'error')
+    } finally {
+      setAvatarUploading(false)
+    }
+  }
 
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
@@ -92,6 +111,33 @@ export function Settings() {
       <Reveal delay={0.05}>
         <form onSubmit={handleProfileSubmit} className="panel mt-8 space-y-4 rounded-2xl p-6">
           <h2 className="text-sm font-semibold text-white">Profile</h2>
+
+          <div className="flex items-center gap-4">
+            <button
+              type="button"
+              onClick={() => avatarInputRef.current?.click()}
+              disabled={avatarUploading}
+              aria-label="Change avatar"
+              className="focus-ring group relative h-16 w-16 shrink-0 overflow-hidden rounded-full border border-white/10 bg-white/[0.04]"
+            >
+              {user?.avatarUrl ? (
+                <img src={user.avatarUrl} alt="" className="h-full w-full object-cover" />
+              ) : (
+                <span className="flex h-full w-full items-center justify-center text-lg font-semibold text-white/40">
+                  {user?.fullName?.[0]?.toUpperCase() ?? '?'}
+                </span>
+              )}
+              <span className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 transition group-hover:opacity-100">
+                {avatarUploading ? <Loader2 className="h-4 w-4 animate-spin text-white" /> : <Camera className="h-4 w-4 text-white" />}
+              </span>
+            </button>
+            <div>
+              <p className="text-sm font-medium text-white">Profile photo</p>
+              <p className="text-xs text-white/40">Click the circle to upload a new one.</p>
+            </div>
+            <input ref={avatarInputRef} type="file" accept="image/*" onChange={handleAvatarChange} className="hidden" />
+          </div>
+
           {profileError && (
             <div className="rounded-lg border border-rose-400/25 bg-rose-400/[0.06] px-4 py-3 text-sm text-rose-300" role="alert">
               {profileError}

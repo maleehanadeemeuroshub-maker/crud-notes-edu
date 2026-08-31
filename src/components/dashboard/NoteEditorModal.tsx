@@ -1,15 +1,18 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { Loader2, Printer, X } from 'lucide-react'
 import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { Button } from '@/components/ui/Button'
 import { ColorSwatchPicker } from '@/components/dashboard/ColorSwatchPicker'
 import { AttachmentsField } from '@/components/dashboard/AttachmentsField'
+import { RichTextToolbar } from '@/components/dashboard/RichTextToolbar'
+import { ShareSection } from '@/components/dashboard/ShareSection'
+import { HistorySection } from '@/components/dashboard/HistorySection'
 import { renderMarkdown } from '@/lib/markdown'
 import { formatDate } from '@/utils/date'
 import { cn } from '@/lib/utils'
 import { NOTE_CATEGORIES, NOTE_CATEGORY_LABELS, NOTE_PRIORITIES } from '@/types/appNote'
-import type { AppNote, NoteCategory, NoteColor, NoteDraft, NotePriority } from '@/types/appNote'
+import type { AppNote, NoteCategory, NoteColor, NoteDraft, NotePriority, NoteVersion } from '@/types/appNote'
 
 interface NoteEditorModalProps {
   open: boolean
@@ -18,11 +21,25 @@ interface NoteEditorModalProps {
   onSave: (draft: NoteDraft) => Promise<unknown>
   onUploadAttachment: (attachment: { name: string; dataUrl: string; size: number }) => Promise<void>
   onRemoveAttachment: (attachmentId: string) => Promise<void>
+  onEnableShare: () => Promise<AppNote>
+  onDisableShare: () => Promise<void>
+  onRestoreVersion: (version: NoteVersion) => Promise<void>
 }
 
 const EMPTY_DRAFT: NoteDraft = { title: '', content: '', category: 'personal', priority: 'medium', color: 'default', tags: [] }
 
-export function NoteEditorModal({ open, note, onClose, onSave, onUploadAttachment, onRemoveAttachment }: NoteEditorModalProps) {
+export function NoteEditorModal({
+  open,
+  note,
+  onClose,
+  onSave,
+  onUploadAttachment,
+  onRemoveAttachment,
+  onEnableShare,
+  onDisableShare,
+  onRestoreVersion,
+}: NoteEditorModalProps) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [category, setCategory] = useState<NoteCategory>('personal')
@@ -71,6 +88,12 @@ export function NoteEditorModal({ open, note, onClose, onSave, onUploadAttachmen
     } finally {
       setSaving(false)
     }
+  }
+
+  async function handleRestoreVersion(version: NoteVersion) {
+    await onRestoreVersion(version)
+    setTitle(version.title)
+    setContent(version.content)
   }
 
   return (
@@ -164,32 +187,36 @@ export function NoteEditorModal({ open, note, onClose, onSave, onUploadAttachmen
                     <label htmlFor="note-content" className="block text-xs font-medium text-white/60">
                       Content <span className="text-white/30">(markdown supported)</span>
                     </label>
-                    <div className="flex gap-0.5 rounded-md bg-white/[0.04] p-0.5">
-                      <button
-                        type="button"
-                        onClick={() => setTab('write')}
-                        className={cn(
-                          'rounded px-2 py-0.5 text-[11px] font-medium transition',
-                          tab === 'write' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white/70',
-                        )}
-                      >
-                        Write
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setTab('preview')}
-                        className={cn(
-                          'rounded px-2 py-0.5 text-[11px] font-medium transition',
-                          tab === 'preview' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white/70',
-                        )}
-                      >
-                        Preview
-                      </button>
+                    <div className="flex items-center gap-2">
+                      {tab === 'write' && <RichTextToolbar textareaRef={textareaRef} value={content} onChange={setContent} />}
+                      <div className="flex gap-0.5 rounded-md bg-white/[0.04] p-0.5">
+                        <button
+                          type="button"
+                          onClick={() => setTab('write')}
+                          className={cn(
+                            'rounded px-2 py-0.5 text-[11px] font-medium transition',
+                            tab === 'write' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white/70',
+                          )}
+                        >
+                          Write
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setTab('preview')}
+                          className={cn(
+                            'rounded px-2 py-0.5 text-[11px] font-medium transition',
+                            tab === 'preview' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white/70',
+                          )}
+                        >
+                          Preview
+                        </button>
+                      </div>
                     </div>
                   </div>
                   {tab === 'write' ? (
                     <textarea
                       id="note-content"
+                      ref={textareaRef}
                       value={content}
                       onChange={(e) => setContent(e.target.value)}
                       placeholder="Write your note... (**bold**, *italic*, - lists, `code`)"
@@ -260,18 +287,24 @@ export function NoteEditorModal({ open, note, onClose, onSave, onUploadAttachmen
                 </div>
 
                 {note ? (
-                  <div>
-                    <p className="mb-1.5 text-xs font-medium text-white/60">
-                      Attachments <span className="text-white/30">(images)</span>
-                    </p>
-                    <AttachmentsField
-                      attachments={note.attachments}
-                      onUpload={onUploadAttachment}
-                      onRemove={onRemoveAttachment}
-                    />
-                  </div>
+                  <>
+                    <div>
+                      <p className="mb-1.5 text-xs font-medium text-white/60">
+                        Attachments <span className="text-white/30">(images)</span>
+                      </p>
+                      <AttachmentsField
+                        attachments={note.attachments}
+                        onUpload={onUploadAttachment}
+                        onRemove={onRemoveAttachment}
+                      />
+                    </div>
+
+                    <ShareSection note={note} onEnable={onEnableShare} onDisable={onDisableShare} />
+
+                    <HistorySection noteId={note.id} onRestore={handleRestoreVersion} />
+                  </>
                 ) : (
-                  <p className="text-[11px] text-white/30">Save the note to attach images.</p>
+                  <p className="text-[11px] text-white/30">Save the note to attach images, share it, or see version history.</p>
                 )}
 
                 <div className="flex justify-end gap-2 pt-2">

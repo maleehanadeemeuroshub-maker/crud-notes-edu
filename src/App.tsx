@@ -25,6 +25,7 @@ import { ForgotPassword } from '@/pages/ForgotPassword'
 import { ResetPassword } from '@/pages/ResetPassword'
 import { Dashboard } from '@/pages/Dashboard'
 import { Settings } from '@/pages/Settings'
+import { SharedNote } from '@/pages/SharedNote'
 import { NotFound } from '@/pages/NotFound'
 
 function PageTransition({ children }: { children: ReactNode }) {
@@ -101,6 +102,7 @@ function AnimatedRoutes() {
             </PageTransition>
           }
         />
+        <Route path="/shared/:shareId" element={<PageTransition><SharedNote /></PageTransition>} />
         <Route path="*" element={<PageTransition><NotFound /></PageTransition>} />
       </Routes>
     </AnimatePresence>

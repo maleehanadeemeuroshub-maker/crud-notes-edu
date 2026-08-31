@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { notesService } from '@/services/notesService'
+import { supabase } from '@/lib/supabaseClient'
 import type { AppNote, NoteCategory, NoteDraft, NoteFilters } from '@/types/appNote'
 import { DEFAULT_FILTERS } from '@/types/appNote'
 
@@ -8,6 +9,7 @@ interface UseAppNotesResult {
   pinnedNotes: AppNote[]
   otherNotes: AppNote[]
   trash: AppNote[]
+  tagCounts: { tag: string; count: number }[]
   loading: boolean
   trashLoading: boolean
   error: string | null
@@ -16,6 +18,7 @@ interface UseAppNotesResult {
   view: 'notes' | 'trash'
   setView: (view: 'notes' | 'trash') => void
   createNote: (draft: NoteDraft) => Promise<AppNote>
+  importNotes: (drafts: NoteDraft[]) => Promise<number>
   updateNote: (id: string, draft: NoteDraft) => Promise<AppNote>
   togglePinned: (note: AppNote) => Promise<void>
   toggleFavorite: (note: AppNote) => Promise<void>
@@ -26,6 +29,9 @@ interface UseAppNotesResult {
   deletePermanently: (id: string) => Promise<void>
   uploadAttachment: (noteId: string, attachment: { name: string; dataUrl: string; size: number }) => Promise<void>
   removeAttachment: (noteId: string, attachmentId: string) => Promise<void>
+  enableShare: (noteId: string) => Promise<AppNote>
+  disableShare: (noteId: string) => Promise<void>
+  renameTag: (oldTag: string, newTag: string | null) => Promise<void>
 }
 
 export function useAppNotes(): UseAppNotesResult {
@@ -65,10 +71,49 @@ export function useAppNotes(): UseAppNotesResult {
     loadTrash()
   }, [loadNotes, loadTrash])
 
+  // Live sync: reflect INSERT/UPDATE/DELETE made from any other tab or device immediately.
+  useEffect(() => {
+    let unsubscribe: (() => void) | null = null
+    let cancelled = false
+
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      if (!user || cancelled) return
+      unsubscribe = notesService.subscribeToChanges(user.id, (note, eventType) => {
+        if (eventType === 'DELETE') {
+          setNotes((prev) => prev.filter((n) => n.id !== note.id))
+          setTrash((prev) => prev.filter((n) => n.id !== note.id))
+          return
+        }
+        const upsert = (list: AppNote[]) => {
+          const exists = list.some((n) => n.id === note.id)
+          return exists ? list.map((n) => (n.id === note.id ? note : n)) : [note, ...list]
+        }
+        if (note.deletedAt) {
+          setNotes((prev) => prev.filter((n) => n.id !== note.id))
+          setTrash(upsert)
+        } else {
+          setTrash((prev) => prev.filter((n) => n.id !== note.id))
+          setNotes(upsert)
+        }
+      })
+    })
+
+    return () => {
+      cancelled = true
+      unsubscribe?.()
+    }
+  }, [])
+
   const createNote = useCallback(async (draft: NoteDraft) => {
     const note = await notesService.create(draft)
-    setNotes((prev) => [note, ...prev])
+    setNotes((prev) => (prev.some((n) => n.id === note.id) ? prev : [note, ...prev]))
     return note
+  }, [])
+
+  const importNotes = useCallback(async (drafts: NoteDraft[]) => {
+    const created = await notesService.createMany(drafts)
+    setNotes((prev) => [...created.filter((n) => !prev.some((p) => p.id === n.id)), ...prev])
+    return created.length
   }, [])
 
   const updateNote = useCallback(async (id: string, draft: NoteDraft) => {
@@ -128,6 +173,25 @@ export function useAppNotes(): UseAppNotesResult {
     setNotes((prev) => prev.map((n) => (n.id === noteId ? updated : n)))
   }, [])
 
+  const enableShare = useCallback(async (noteId: string) => {
+    const updated = await notesService.enableShare(noteId)
+    setNotes((prev) => prev.map((n) => (n.id === noteId ? updated : n)))
+    return updated
+  }, [])
+
+  const disableShare = useCallback(async (noteId: string) => {
+    const updated = await notesService.disableShare(noteId)
+    setNotes((prev) => prev.map((n) => (n.id === noteId ? updated : n)))
+  }, [])
+
+  const renameTag = useCallback(
+    async (oldTag: string, newTag: string | null) => {
+      await notesService.renameTagEverywhere(oldTag, newTag)
+      await loadNotes()
+    },
+    [loadNotes],
+  )
+
   const filteredNotes = useMemo(() => {
     const query = filters.search.trim().toLowerCase()
     let result = notes.filter((note) => {
@@ -164,11 +228,22 @@ export function useAppNotes(): UseAppNotesResult {
   const pinnedNotes = useMemo(() => filteredNotes.filter((n) => n.pinned), [filteredNotes])
   const otherNotes = useMemo(() => filteredNotes.filter((n) => !n.pinned), [filteredNotes])
 
+  const tagCounts = useMemo(() => {
+    const counts = new Map<string, number>()
+    for (const note of notes) {
+      for (const tag of note.tags) counts.set(tag, (counts.get(tag) ?? 0) + 1)
+    }
+    return Array.from(counts.entries())
+      .map(([tag, count]) => ({ tag, count }))
+      .sort((a, b) => b.count - a.count)
+  }, [notes])
+
   return {
     notes: filteredNotes,
     pinnedNotes,
     otherNotes,
     trash,
+    tagCounts,
     loading,
     trashLoading,
     error,
@@ -177,6 +252,7 @@ export function useAppNotes(): UseAppNotesResult {
     view,
     setView,
     createNote,
+    importNotes,
     updateNote,
     togglePinned,
     toggleFavorite,
@@ -187,5 +263,8 @@ export function useAppNotes(): UseAppNotesResult {
     deletePermanently,
     uploadAttachment,
     removeAttachment,
+    enableShare,
+    disableShare,
+    renameTag,
   }
 }
