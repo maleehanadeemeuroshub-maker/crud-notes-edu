@@ -1,110 +1,135 @@
-import { tokenStorage } from '@/lib/tokenStorage'
-import { UNAUTHORIZED_EVENT } from '@/lib/http'
-import type { AppNote, NoteDraft } from '@/types/appNote'
+import { supabase } from '@/lib/supabaseClient'
+import type { AppNote, NoteCategory, NoteDraft } from '@/types/appNote'
 
-/**
- * Notes CRUD goes through the native Fetch API directly (axios is used for
- * auth in services/authService.ts) so both HTTP clients are demonstrated.
- */
+/** Notes CRUD goes through the Supabase JS SDK (PostgREST under the hood) against the `notes` table — see supabase/schema.sql. */
 
-async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
-  const token = tokenStorage.getToken()
-  const response = await fetch(`/api${path}`, {
-    ...init,
-    headers: {
-      ...(init.body ? { 'Content-Type': 'application/json' } : {}),
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...init.headers,
-    },
-  })
+interface NoteRow {
+  id: string
+  user_id: string
+  title: string
+  content: string
+  category: string
+  priority: string
+  color: string
+  tags: string[]
+  attachments: AppNote['attachments']
+  pinned: boolean
+  favorite: boolean
+  deleted_at: string | null
+  created_at: string
+  updated_at: string
+}
 
-  if (response.status === 401) {
-    window.dispatchEvent(new Event(UNAUTHORIZED_EVENT))
+function rowToNote(row: NoteRow): AppNote {
+  return {
+    id: row.id,
+    userId: row.user_id,
+    title: row.title,
+    content: row.content,
+    category: row.category as AppNote['category'],
+    priority: row.priority as AppNote['priority'],
+    color: row.color as AppNote['color'],
+    tags: row.tags,
+    attachments: row.attachments,
+    pinned: row.pinned,
+    favorite: row.favorite,
+    deletedAt: row.deleted_at,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at,
   }
+}
 
-  if (response.status === 204) {
-    return undefined as T
-  }
-
-  const body = await response.json().catch(() => ({}))
-  if (!response.ok) {
-    throw new Error(body.message ?? `Request failed with status ${response.status}.`)
-  }
-  return body as T
+async function requireUserId(): Promise<string> {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) throw new Error('You must be signed in.')
+  return user.id
 }
 
 export const notesService = {
   async list(trashed = false): Promise<AppNote[]> {
-    const { notes } = await request<{ notes: AppNote[] }>(`/notes?trashed=${trashed}`)
-    return notes
+    let query = supabase.from('notes').select('*')
+    query = trashed ? query.not('deleted_at', 'is', null) : query.is('deleted_at', null)
+    const { data, error } = await query.order('created_at', { ascending: false })
+    if (error) throw new Error(error.message)
+    return (data as NoteRow[]).map(rowToNote)
   },
 
   async create(draft: NoteDraft): Promise<AppNote> {
-    const { note } = await request<{ note: AppNote }>('/notes', {
-      method: 'POST',
-      body: JSON.stringify(draft),
-    })
-    return note
+    const userId = await requireUserId()
+    const { data, error } = await supabase
+      .from('notes')
+      .insert({ ...draft, user_id: userId })
+      .select()
+      .single()
+    if (error) throw new Error(error.message)
+    return rowToNote(data as NoteRow)
   },
 
   async update(id: string, patch: Partial<NoteDraft>): Promise<AppNote> {
-    const { note } = await request<{ note: AppNote }>(`/notes/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify(patch),
-    })
-    return note
+    const { data, error } = await supabase.from('notes').update(patch).eq('id', id).select().single()
+    if (error) throw new Error(error.message)
+    return rowToNote(data as NoteRow)
   },
 
   async togglePinned(id: string, pinned: boolean): Promise<AppNote> {
-    const { note } = await request<{ note: AppNote }>(`/notes/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ pinned }),
-    })
-    return note
+    const { data, error } = await supabase.from('notes').update({ pinned }).eq('id', id).select().single()
+    if (error) throw new Error(error.message)
+    return rowToNote(data as NoteRow)
   },
 
   async toggleFavorite(id: string, favorite: boolean): Promise<AppNote> {
-    const { note } = await request<{ note: AppNote }>(`/notes/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ favorite }),
-    })
-    return note
+    const { data, error } = await supabase.from('notes').update({ favorite }).eq('id', id).select().single()
+    if (error) throw new Error(error.message)
+    return rowToNote(data as NoteRow)
   },
 
-  async setCategory(id: string, category: AppNote['category']): Promise<AppNote> {
-    const { note } = await request<{ note: AppNote }>(`/notes/${id}`, {
-      method: 'PATCH',
-      body: JSON.stringify({ category }),
-    })
-    return note
+  async setCategory(id: string, category: NoteCategory): Promise<AppNote> {
+    const { data, error } = await supabase.from('notes').update({ category }).eq('id', id).select().single()
+    if (error) throw new Error(error.message)
+    return rowToNote(data as NoteRow)
   },
 
   async softDelete(id: string): Promise<AppNote> {
-    const { note } = await request<{ note: AppNote }>(`/notes/${id}`, { method: 'DELETE' })
-    return note
+    const { data, error } = await supabase
+      .from('notes')
+      .update({ deleted_at: new Date().toISOString() })
+      .eq('id', id)
+      .select()
+      .single()
+    if (error) throw new Error(error.message)
+    return rowToNote(data as NoteRow)
   },
 
   async restore(id: string): Promise<AppNote> {
-    const { note } = await request<{ note: AppNote }>(`/notes/${id}/restore`, { method: 'POST' })
-    return note
+    const { data, error } = await supabase.from('notes').update({ deleted_at: null }).eq('id', id).select().single()
+    if (error) throw new Error(error.message)
+    return rowToNote(data as NoteRow)
   },
 
   async deletePermanently(id: string): Promise<void> {
-    await request<void>(`/notes/${id}/permanent`, { method: 'DELETE' })
+    const { error } = await supabase.from('notes').delete().eq('id', id)
+    if (error) throw new Error(error.message)
   },
 
   async uploadAttachment(id: string, attachment: { name: string; dataUrl: string; size: number }): Promise<AppNote> {
-    const { note } = await request<{ note: AppNote }>(`/notes/${id}/attachments`, {
-      method: 'POST',
-      body: JSON.stringify(attachment),
-    })
-    return note
+    const { data: existing, error: fetchError } = await supabase.from('notes').select('attachments').eq('id', id).single()
+    if (fetchError) throw new Error(fetchError.message)
+
+    const attachments = [...(existing as Pick<NoteRow, 'attachments'>).attachments, { id: crypto.randomUUID(), ...attachment }]
+    const { data, error } = await supabase.from('notes').update({ attachments }).eq('id', id).select().single()
+    if (error) throw new Error(error.message)
+    return rowToNote(data as NoteRow)
   },
 
   async removeAttachment(id: string, attachmentId: string): Promise<AppNote> {
-    const { note } = await request<{ note: AppNote }>(`/notes/${id}/attachments/${attachmentId}`, {
-      method: 'DELETE',
-    })
-    return note
+    const { data: existing, error: fetchError } = await supabase.from('notes').select('attachments').eq('id', id).single()
+    if (fetchError) throw new Error(fetchError.message)
+
+    const attachments = (existing as Pick<NoteRow, 'attachments'>).attachments.filter((a) => a.id !== attachmentId)
+    const { data, error } = await supabase.from('notes').update({ attachments }).eq('id', id).select().single()
+    if (error) throw new Error(error.message)
+    return rowToNote(data as NoteRow)
   },
 }

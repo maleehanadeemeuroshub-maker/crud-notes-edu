@@ -1,24 +1,36 @@
-import { useState, type FormEvent } from 'react'
-import { NavLink, useNavigate, useSearchParams } from 'react-router-dom'
+import { useEffect, useState, type FormEvent } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { KeyRound, Loader2 } from 'lucide-react'
 import { Reveal } from '@/components/ui/Reveal'
 import { Button } from '@/components/ui/Button'
 import { PasswordInput } from '@/components/auth/PasswordInput'
 import { FormField } from '@/components/auth/FormField'
+import { supabase } from '@/lib/supabaseClient'
 import { authService } from '@/services/authService'
 import { useToast } from '@/context/ToastContext'
 
 export function ResetPassword() {
-  const [searchParams] = useSearchParams()
-  const token = searchParams.get('token') ?? ''
   const navigate = useNavigate()
   const { showToast } = useToast()
+
+  // Only the link Supabase emails (which establishes a short-lived PASSWORD_RECOVERY session)
+  // may reset a password here — a normal logged-in session does not count.
+  const [recoveryReady, setRecoveryReady] = useState(false)
 
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [errors, setErrors] = useState<{ password?: string; confirmPassword?: string }>({})
   const [formError, setFormError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'PASSWORD_RECOVERY') setRecoveryReady(true)
+    })
+    return () => subscription.unsubscribe()
+  }, [])
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -31,7 +43,8 @@ export function ResetPassword() {
 
     setLoading(true)
     try {
-      await authService.resetPassword({ token, password })
+      await authService.resetPassword({ password })
+      await authService.logout()
       showToast('Password reset — sign in with your new password.', 'success')
       navigate('/login', { replace: true })
     } catch (err) {
@@ -53,12 +66,12 @@ export function ResetPassword() {
         </div>
 
         <div className="panel rounded-2xl p-6 sm:p-8">
-          {!token ? (
+          {!recoveryReady ? (
             <div className="rounded-lg border border-rose-400/25 bg-rose-400/[0.06] px-4 py-3 text-sm text-rose-300">
-              This reset link is missing a token. Request a new one from the forgot password page.
+              This page only works from the reset link emailed to you. Request a new one from the forgot password page.
             </div>
           ) : (
-            <form onSubmit={handleSubmit} noValidate className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               {formError && (
                 <div className="rounded-lg border border-rose-400/25 bg-rose-400/[0.06] px-4 py-3 text-sm text-rose-300" role="alert">
                   {formError}
@@ -67,6 +80,8 @@ export function ResetPassword() {
               <FormField label="New password" htmlFor="password" error={errors.password}>
                 <PasswordInput
                   id="password"
+                  required
+                  minLength={6}
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="At least 6 characters"
@@ -76,6 +91,8 @@ export function ResetPassword() {
               <FormField label="Confirm new password" htmlFor="confirmPassword" error={errors.confirmPassword}>
                 <PasswordInput
                   id="confirmPassword"
+                  required
+                  minLength={6}
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   placeholder="Re-enter your password"

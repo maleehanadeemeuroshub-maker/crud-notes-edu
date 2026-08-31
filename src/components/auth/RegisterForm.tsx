@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Loader2, Mail, User } from 'lucide-react'
+import { Loader2, Mail, MailCheck, User } from 'lucide-react'
 import { useAuth } from '@/context/AuthContext'
 import { useToast } from '@/context/ToastContext'
 import { FormField } from '@/components/auth/FormField'
@@ -29,6 +29,7 @@ export function RegisterForm() {
   const [errors, setErrors] = useState<FieldErrors>({})
   const [formError, setFormError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [confirmationSent, setConfirmationSent] = useState(false)
 
   function validate(): boolean {
     const next: FieldErrors = {}
@@ -47,9 +48,13 @@ export function RegisterForm() {
 
     setLoading(true)
     try {
-      await register({ fullName: fullName.trim(), email: email.trim(), password })
-      showToast('Account created — welcome to CRUD Notes!', 'success')
-      navigate('/dashboard', { replace: true })
+      const { requiresEmailConfirmation } = await register({ fullName: fullName.trim(), email: email.trim(), password })
+      if (requiresEmailConfirmation) {
+        setConfirmationSent(true)
+      } else {
+        showToast('Account created — welcome to CRUD Notes!', 'success')
+        navigate('/dashboard', { replace: true })
+      }
     } catch (err) {
       setFormError(err instanceof Error ? err.message : 'Registration failed. Please try again.')
     } finally {
@@ -57,8 +62,20 @@ export function RegisterForm() {
     }
   }
 
+  if (confirmationSent) {
+    return (
+      <div className="flex flex-col items-center gap-3 py-4 text-center">
+        <span className="flex h-11 w-11 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-400/10">
+          <MailCheck className="h-5 w-5 text-emerald-400" aria-hidden="true" />
+        </span>
+        <p className="text-sm font-medium text-white">Check your email to confirm your account.</p>
+        <p className="text-sm text-white/50">We sent a confirmation link to {email}. Click it, then sign in.</p>
+      </div>
+    )
+  }
+
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       {formError && (
         <div className="rounded-lg border border-rose-400/25 bg-rose-400/[0.06] px-4 py-3 text-sm text-rose-300" role="alert">
           {formError}
@@ -73,6 +90,8 @@ export function RegisterForm() {
           onChange={(e) => setFullName(e.target.value)}
           placeholder="Jordan Rivera"
           autoComplete="name"
+          required
+          minLength={2}
         />
       </FormField>
 
@@ -85,6 +104,7 @@ export function RegisterForm() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
           autoComplete="email"
+          required
         />
       </FormField>
 
@@ -95,6 +115,8 @@ export function RegisterForm() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="At least 6 characters"
           autoComplete="new-password"
+          required
+          minLength={6}
         />
       </FormField>
 
@@ -105,6 +127,8 @@ export function RegisterForm() {
           onChange={(e) => setConfirmPassword(e.target.value)}
           placeholder="Re-enter your password"
           autoComplete="new-password"
+          required
+          minLength={6}
         />
       </FormField>
 

@@ -1,11 +1,12 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Loader2, X } from 'lucide-react'
+import { Loader2, Printer, X } from 'lucide-react'
 import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { Button } from '@/components/ui/Button'
 import { ColorSwatchPicker } from '@/components/dashboard/ColorSwatchPicker'
 import { AttachmentsField } from '@/components/dashboard/AttachmentsField'
 import { renderMarkdown } from '@/lib/markdown'
+import { formatDate } from '@/utils/date'
 import { cn } from '@/lib/utils'
 import { NOTE_CATEGORIES, NOTE_CATEGORY_LABELS, NOTE_PRIORITIES } from '@/types/appNote'
 import type { AppNote, NoteCategory, NoteColor, NoteDraft, NotePriority } from '@/types/appNote'
@@ -81,10 +82,10 @@ export function NoteEditorModal({ open, note, onClose, onSave, onUploadAttachmen
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
+            className="no-print fixed inset-0 z-40 bg-black/60 backdrop-blur-sm"
             aria-hidden="true"
           />
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="modal-print-fix fixed inset-0 z-50 flex items-center justify-center p-4">
             <motion.div
               initial={{ opacity: 0, scale: 0.96, y: 12 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -93,21 +94,48 @@ export function NoteEditorModal({ open, note, onClose, onSave, onUploadAttachmen
               role="dialog"
               aria-modal="true"
               aria-label={note ? 'Edit note' : 'Create note'}
-              className="panel-glass max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl p-6"
+              className="modal-print-fix panel-glass max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl p-6"
             >
-              <div className="mb-5 flex items-center justify-between">
+              <div className="no-print mb-5 flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-white">{note ? 'Edit note' : 'New note'}</h2>
-                <button
-                  type="button"
-                  onClick={onClose}
-                  aria-label="Close"
-                  className="focus-ring rounded-lg p-1.5 text-white/50 hover:bg-white/[0.06] hover:text-white"
-                >
-                  <X className="h-4.5 w-4.5" />
-                </button>
+                <div className="flex items-center gap-1">
+                  {note && (
+                    <button
+                      type="button"
+                      onClick={() => window.print()}
+                      aria-label="Print note"
+                      title="Print note"
+                      className="focus-ring rounded-lg p-1.5 text-white/50 hover:bg-white/[0.06] hover:text-white"
+                    >
+                      <Printer className="h-4 w-4" />
+                    </button>
+                  )}
+                  <button
+                    type="button"
+                    onClick={onClose}
+                    aria-label="Close"
+                    className="focus-ring rounded-lg p-1.5 text-white/50 hover:bg-white/[0.06] hover:text-white"
+                  >
+                    <X className="h-4.5 w-4.5" />
+                  </button>
+                </div>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-4">
+              {note && (
+                <div className="print-only">
+                  <h1>{note.title}</h1>
+                  <p className="print-meta">
+                    {NOTE_CATEGORY_LABELS[note.category]} · {note.priority} priority · Updated {formatDate(note.updatedAt)}
+                    {note.tags.length > 0 && ` · #${note.tags.join(' #')}`}
+                  </p>
+                  <div
+                    className="print-body"
+                    dangerouslySetInnerHTML={{ __html: note.content.trim() ? renderMarkdown(note.content) : '<p>No content.</p>' }}
+                  />
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="no-print space-y-4">
                 <div>
                   <label htmlFor="note-title" className="mb-1.5 block text-xs font-medium text-white/60">
                     Title
@@ -115,6 +143,7 @@ export function NoteEditorModal({ open, note, onClose, onSave, onUploadAttachmen
                   <input
                     id="note-title"
                     autoFocus
+                    required
                     value={title}
                     onChange={(e) => {
                       setTitle(e.target.value)

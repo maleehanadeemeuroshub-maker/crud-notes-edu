@@ -36,7 +36,7 @@ const LINK_GROUPS: { title: string; links: FooterLink[] }[] = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/8 bg-deep">
+    <footer className="no-print border-t border-white/8 bg-deep">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           <div className="col-span-2">

@@ -81,7 +81,7 @@ function AnimatedRoutes() {
           path="/reset-password"
           element={
             <PageTransition>
-              <GuestRoute><ResetPassword /></GuestRoute>
+              <ResetPassword />
             </PageTransition>
           }
         />

@@ -12,7 +12,7 @@ import { PasswordInput } from '@/components/auth/PasswordInput'
 import { ConfirmButton } from '@/components/dashboard/ConfirmButton'
 
 export function Settings() {
-  const { user, updateProfile, changePassword, deleteAccount } = useAuth()
+  const { user, updateProfile, changePassword, deleteAllDataAndSignOut } = useAuth()
   const { showToast } = useToast()
   const navigate = useNavigate()
 
@@ -71,14 +71,14 @@ export function Settings() {
     }
   }
 
-  async function handleDeleteAccount() {
+  async function handleDeleteAllData() {
     setDeleting(true)
     try {
-      await deleteAccount()
-      showToast('Account deleted.', 'info')
+      await deleteAllDataAndSignOut()
+      showToast('All your notes were deleted and you were signed out.', 'info')
       navigate('/')
     } catch (err) {
-      showToast(err instanceof Error ? err.message : 'Could not delete account.', 'error')
+      showToast(err instanceof Error ? err.message : 'Could not delete your data.', 'error')
       setDeleting(false)
     }
   }
@@ -103,6 +103,8 @@ export function Settings() {
               icon={<User className="h-4 w-4" />}
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
+              required
+              minLength={2}
             />
           </FormField>
           <FormField label="Email" htmlFor="settings-email">
@@ -124,13 +126,13 @@ export function Settings() {
             </div>
           )}
           <FormField label="Current password" htmlFor="current-password">
-            <PasswordInput id="current-password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} autoComplete="current-password" />
+            <PasswordInput id="current-password" value={currentPassword} onChange={(e) => setCurrentPassword(e.target.value)} autoComplete="current-password" required />
           </FormField>
           <FormField label="New password" htmlFor="new-password">
-            <PasswordInput id="new-password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} autoComplete="new-password" />
+            <PasswordInput id="new-password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} autoComplete="new-password" required minLength={6} />
           </FormField>
           <FormField label="Confirm new password" htmlFor="confirm-new-password">
-            <PasswordInput id="confirm-new-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} autoComplete="new-password" />
+            <PasswordInput id="confirm-new-password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} autoComplete="new-password" required minLength={6} />
           </FormField>
           <Button type="submit" disabled={passwordSaving}>
             {passwordSaving && <Loader2 className="h-4 w-4 animate-spin" />}
@@ -142,16 +144,22 @@ export function Settings() {
       <Reveal delay={0.15}>
         <div className="panel mt-6 rounded-2xl border-rose-400/20 p-6">
           <h2 className="text-sm font-semibold text-rose-300">Danger zone</h2>
-          <p className="mt-1 text-sm text-white/45">Permanently delete your account and all your notes. This cannot be undone.</p>
+          <p className="mt-1 text-sm text-white/45">
+            Permanently delete all your notes and sign you out. This cannot be undone.{' '}
+            <span className="text-white/30">
+              (Fully deleting the account record itself requires an admin action, since that needs
+              elevated access the browser never holds — contact support if you need that too.)
+            </span>
+          </p>
           <div className="mt-4">
             <ConfirmButton
-              onConfirm={handleDeleteAccount}
-              label="Delete account"
+              onConfirm={handleDeleteAllData}
+              label="Delete all my data"
               confirmLabel="Delete everything?"
               icon={<Trash2 className="h-3.5 w-3.5" />}
               className="h-9 w-auto rounded-lg border border-rose-400/25 px-3 text-xs font-medium"
             >
-              Delete account
+              Delete all my data
             </ConfirmButton>
             {deleting && <span className="ml-2 text-xs text-white/40">Deleting…</span>}
           </div>

@@ -6,30 +6,19 @@ import { Button } from '@/components/ui/Button'
 import { TextInput } from '@/components/auth/TextInput'
 import { authService } from '@/services/authService'
 
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
 export function ForgotPassword() {
   const [email, setEmail] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
-  const [resetLink, setResetLink] = useState<string | null>(null)
   const [submitted, setSubmitted] = useState(false)
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
     setError(null)
-    if (!EMAIL_RE.test(email)) {
-      setError('Enter a valid email address.')
-      return
-    }
-
     setLoading(true)
     try {
-      const { resetToken } = await authService.forgotPassword({ email: email.trim() })
+      await authService.forgotPassword({ email: email.trim() })
       setSubmitted(true)
-      if (resetToken) {
-        setResetLink(`${window.location.origin}/reset-password?token=${resetToken}`)
-      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong. Please try again.')
     } finally {
@@ -45,31 +34,16 @@ export function ForgotPassword() {
             <KeyRound className="h-5 w-5 text-indigo-400" aria-hidden="true" />
           </span>
           <h1 className="text-2xl font-semibold tracking-tight text-white">Reset your password</h1>
-          <p className="mt-2 text-sm text-white/50">Enter your email and we'll generate a reset link.</p>
+          <p className="mt-2 text-sm text-white/50">Enter your email and we'll send you a reset link.</p>
         </div>
 
         <div className="panel rounded-2xl p-6 sm:p-8">
           {submitted ? (
-            <div className="space-y-4">
-              <div className="rounded-lg border border-emerald-400/25 bg-emerald-400/[0.06] px-4 py-3 text-sm text-emerald-300">
-                If that email exists, a reset link has been generated.
-              </div>
-              {resetLink && (
-                <div className="rounded-lg border border-white/10 bg-white/[0.03] p-3">
-                  <p className="mb-1.5 text-[11px] font-medium uppercase tracking-wide text-white/40">
-                    Demo mode — no email server, here's your link
-                  </p>
-                  <NavLink
-                    to={resetLink.replace(window.location.origin, '')}
-                    className="focus-ring block break-all rounded text-xs font-medium text-indigo-300 hover:text-indigo-200 hover:underline"
-                  >
-                    {resetLink}
-                  </NavLink>
-                </div>
-              )}
+            <div className="rounded-lg border border-emerald-400/25 bg-emerald-400/[0.06] px-4 py-3 text-sm text-emerald-300">
+              If that email exists, a reset link is on its way — check your inbox (and spam folder).
             </div>
           ) : (
-            <form onSubmit={handleSubmit} noValidate className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               {error && (
                 <div className="rounded-lg border border-rose-400/25 bg-rose-400/[0.06] px-4 py-3 text-sm text-rose-300" role="alert">
                   {error}
@@ -82,6 +56,7 @@ export function ForgotPassword() {
                 <TextInput
                   id="email"
                   type="email"
+                  required
                   icon={<Mail className="h-4 w-4" />}
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}

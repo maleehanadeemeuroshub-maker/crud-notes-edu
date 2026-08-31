@@ -11,14 +11,15 @@ export interface RegisterPayload {
   password: string
 }
 
+export interface RegisterResult {
+  user: AuthUser
+  /** True when Supabase requires the user to click a confirmation link before they can sign in. */
+  requiresEmailConfirmation: boolean
+}
+
 export interface LoginPayload {
   email: string
   password: string
-}
-
-export interface AuthResponse {
-  user: AuthUser
-  token: string
 }
 
 export interface UpdateProfilePayload {
@@ -35,11 +36,5 @@ export interface ForgotPasswordPayload {
 }
 
 export interface ResetPasswordPayload {
-  token: string
   password: string
-}
-
-export interface ApiErrorBody {
-  message: string
-  field?: string
 }

@@ -24,7 +24,6 @@ export function LoginForm() {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [remember, setRemember] = useState(true)
   const [errors, setErrors] = useState<FieldErrors>({})
   const [formError, setFormError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
@@ -44,7 +43,7 @@ export function LoginForm() {
 
     setLoading(true)
     try {
-      await login({ email: email.trim(), password }, remember)
+      await login({ email: email.trim(), password })
       showToast('Welcome back!', 'success')
       navigate(redirectTo, { replace: true })
     } catch (err) {
@@ -55,7 +54,7 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4">
       {formError && (
         <div className="rounded-lg border border-rose-400/25 bg-rose-400/[0.06] px-4 py-3 text-sm text-rose-300" role="alert">
           {formError}
@@ -71,6 +70,7 @@ export function LoginForm() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="you@example.com"
           autoComplete="email"
+          required
         />
       </FormField>
 
@@ -81,6 +81,7 @@ export function LoginForm() {
           onChange={(e) => setPassword(e.target.value)}
           placeholder="Your password"
           autoComplete="current-password"
+          required
         />
       </FormField>
 
@@ -89,16 +90,6 @@ export function LoginForm() {
           Forgot password?
         </NavLink>
       </div>
-
-      <label className="flex cursor-pointer items-center gap-2 text-xs text-white/50">
-        <input
-          type="checkbox"
-          checked={remember}
-          onChange={(e) => setRemember(e.target.checked)}
-          className="h-3.5 w-3.5 rounded border-white/20 bg-transparent accent-indigo-500"
-        />
-        Keep me signed in on this device
-      </label>
 
       <Button type="submit" size="lg" disabled={loading} className="w-full">
         {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : null}

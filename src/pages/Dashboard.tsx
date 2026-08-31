@@ -190,7 +190,8 @@ export function Dashboard() {
   const gridClass = viewMode === 'grid' ? 'grid gap-4 sm:grid-cols-2 lg:grid-cols-3' : 'flex flex-col gap-3'
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <>
+    <div className="no-print mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <Reveal>
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -399,6 +400,7 @@ export function Dashboard() {
         </div>
       )}
 
+    </div>
       <NoteEditorModal
         open={editorOpen}
         note={activeEditingNote}
@@ -407,6 +409,6 @@ export function Dashboard() {
         onUploadAttachment={handleUploadAttachment}
         onRemoveAttachment={handleRemoveAttachment}
       />
-    </div>
+    </>
   )
 }

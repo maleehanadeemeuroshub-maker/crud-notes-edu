@@ -35,7 +35,7 @@ export function Navbar() {
   }
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/8 bg-base/85 backdrop-blur-xl">
+    <header className="no-print sticky top-0 z-50 border-b border-white/8 bg-base/85 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-2 px-4 sm:px-6">
         <NavLink to="/" className="flex items-center gap-2 shrink-0" aria-label="CRUD Notes home">
           <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-indigo-500/30 bg-indigo-500/10">
