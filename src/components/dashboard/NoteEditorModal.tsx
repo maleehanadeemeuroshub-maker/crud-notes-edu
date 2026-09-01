@@ -120,7 +120,7 @@ export function NoteEditorModal({
               className="modal-print-fix panel-glass max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl p-6"
             >
               <div className="no-print mb-5 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-white">{note ? 'Edit note' : 'New note'}</h2>
+                <h2 className="text-lg font-semibold text-ink">{note ? 'Edit note' : 'New note'}</h2>
                 <div className="flex items-center gap-1">
                   {note && (
                     <button
@@ -128,7 +128,7 @@ export function NoteEditorModal({
                       onClick={() => window.print()}
                       aria-label="Print note"
                       title="Print note"
-                      className="focus-ring rounded-lg p-1.5 text-white/50 hover:bg-white/[0.06] hover:text-white"
+                      className="focus-ring rounded-lg p-1.5 text-ink/50 hover:bg-ink/[0.06] hover:text-ink"
                     >
                       <Printer className="h-4 w-4" />
                     </button>
@@ -137,7 +137,7 @@ export function NoteEditorModal({
                     type="button"
                     onClick={onClose}
                     aria-label="Close"
-                    className="focus-ring rounded-lg p-1.5 text-white/50 hover:bg-white/[0.06] hover:text-white"
+                    className="focus-ring rounded-lg p-1.5 text-ink/50 hover:bg-ink/[0.06] hover:text-ink"
                   >
                     <X className="h-4.5 w-4.5" />
                   </button>
@@ -160,7 +160,7 @@ export function NoteEditorModal({
 
               <form onSubmit={handleSubmit} className="no-print space-y-4">
                 <div>
-                  <label htmlFor="note-title" className="mb-1.5 block text-xs font-medium text-white/60">
+                  <label htmlFor="note-title" className="mb-1.5 block text-xs font-medium text-ink/60">
                     Title
                   </label>
                   <input
@@ -173,7 +173,7 @@ export function NoteEditorModal({
                       if (titleError) setTitleError(null)
                     }}
                     placeholder="Note title"
-                    className="focus-ring panel h-11 w-full rounded-lg px-3 text-sm text-white placeholder:text-white/35 focus:border-indigo-400/50 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.14)]"
+                    className="focus-ring panel h-11 w-full rounded-lg px-3 text-sm text-ink placeholder:text-ink/35 focus:border-indigo-400/50 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.14)]"
                   />
                   {titleError && (
                     <p className="mt-1.5 text-xs font-medium text-rose-400" role="alert">
@@ -184,18 +184,18 @@ export function NoteEditorModal({
 
                 <div>
                   <div className="mb-1.5 flex items-center justify-between">
-                    <label htmlFor="note-content" className="block text-xs font-medium text-white/60">
-                      Content <span className="text-white/30">(markdown supported)</span>
+                    <label htmlFor="note-content" className="block text-xs font-medium text-ink/60">
+                      Content <span className="text-ink/30">(markdown supported)</span>
                     </label>
                     <div className="flex items-center gap-2">
                       {tab === 'write' && <RichTextToolbar textareaRef={textareaRef} value={content} onChange={setContent} />}
-                      <div className="flex gap-0.5 rounded-md bg-white/[0.04] p-0.5">
+                      <div className="flex gap-0.5 rounded-md bg-ink/[0.04] p-0.5">
                         <button
                           type="button"
                           onClick={() => setTab('write')}
                           className={cn(
                             'rounded px-2 py-0.5 text-[11px] font-medium transition',
-                            tab === 'write' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white/70',
+                            tab === 'write' ? 'bg-ink/10 text-ink' : 'text-ink/40 hover:text-ink/70',
                           )}
                         >
                           Write
@@ -205,7 +205,7 @@ export function NoteEditorModal({
                           onClick={() => setTab('preview')}
                           className={cn(
                             'rounded px-2 py-0.5 text-[11px] font-medium transition',
-                            tab === 'preview' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white/70',
+                            tab === 'preview' ? 'bg-ink/10 text-ink' : 'text-ink/40 hover:text-ink/70',
                           )}
                         >
                           Preview
@@ -221,26 +221,26 @@ export function NoteEditorModal({
                       onChange={(e) => setContent(e.target.value)}
                       placeholder="Write your note... (**bold**, *italic*, - lists, `code`)"
                       rows={5}
-                      className="focus-ring panel w-full resize-none rounded-lg px-3 py-2.5 text-sm text-white placeholder:text-white/35 focus:border-indigo-400/50 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.14)]"
+                      className="focus-ring panel w-full resize-none rounded-lg px-3 py-2.5 text-sm text-ink placeholder:text-ink/35 focus:border-indigo-400/50 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.14)]"
                     />
                   ) : (
                     <div
-                      className="panel min-h-[7.5rem] rounded-lg px-3 py-2.5 text-sm leading-relaxed text-white/80 prose-note"
-                      dangerouslySetInnerHTML={{ __html: content.trim() ? renderMarkdown(content) : '<p class="text-white/30">Nothing to preview yet.</p>' }}
+                      className="panel min-h-[7.5rem] rounded-lg px-3 py-2.5 text-sm leading-relaxed text-ink/80 prose-note"
+                      dangerouslySetInnerHTML={{ __html: content.trim() ? renderMarkdown(content) : '<p class="text-ink/30">Nothing to preview yet.</p>' }}
                     />
                   )}
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label htmlFor="note-category" className="mb-1.5 block text-xs font-medium text-white/60">
+                    <label htmlFor="note-category" className="mb-1.5 block text-xs font-medium text-ink/60">
                       Category
                     </label>
                     <select
                       id="note-category"
                       value={category}
                       onChange={(e) => setCategory(e.target.value as NoteCategory)}
-                      className="focus-ring panel h-10 w-full rounded-lg px-3 text-sm text-white"
+                      className="focus-ring panel h-10 w-full rounded-lg px-3 text-sm text-ink"
                     >
                       {NOTE_CATEGORIES.map((cat) => (
                         <option key={cat} value={cat}>
@@ -250,14 +250,14 @@ export function NoteEditorModal({
                     </select>
                   </div>
                   <div>
-                    <label htmlFor="note-priority" className="mb-1.5 block text-xs font-medium text-white/60">
+                    <label htmlFor="note-priority" className="mb-1.5 block text-xs font-medium text-ink/60">
                       Priority
                     </label>
                     <select
                       id="note-priority"
                       value={priority}
                       onChange={(e) => setPriority(e.target.value as NotePriority)}
-                      className="focus-ring panel h-10 w-full rounded-lg px-3 text-sm text-white capitalize"
+                      className="focus-ring panel h-10 w-full rounded-lg px-3 text-sm text-ink capitalize"
                     >
                       {NOTE_PRIORITIES.map((p) => (
                         <option key={p} value={p} className="capitalize">
@@ -269,28 +269,28 @@ export function NoteEditorModal({
                 </div>
 
                 <div>
-                  <label htmlFor="note-tags" className="mb-1.5 block text-xs font-medium text-white/60">
-                    Tags <span className="text-white/30">(comma-separated)</span>
+                  <label htmlFor="note-tags" className="mb-1.5 block text-xs font-medium text-ink/60">
+                    Tags <span className="text-ink/30">(comma-separated)</span>
                   </label>
                   <input
                     id="note-tags"
                     value={tagsInput}
                     onChange={(e) => setTagsInput(e.target.value)}
                     placeholder="e.g. urgent, meeting, follow-up"
-                    className="focus-ring panel h-11 w-full rounded-lg px-3 text-sm text-white placeholder:text-white/35 focus:border-indigo-400/50 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.14)]"
+                    className="focus-ring panel h-11 w-full rounded-lg px-3 text-sm text-ink placeholder:text-ink/35 focus:border-indigo-400/50 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.14)]"
                   />
                 </div>
 
                 <div>
-                  <p className="mb-1.5 text-xs font-medium text-white/60">Color</p>
+                  <p className="mb-1.5 text-xs font-medium text-ink/60">Color</p>
                   <ColorSwatchPicker value={color} onChange={setColor} />
                 </div>
 
                 {note ? (
                   <>
                     <div>
-                      <p className="mb-1.5 text-xs font-medium text-white/60">
-                        Attachments <span className="text-white/30">(images)</span>
+                      <p className="mb-1.5 text-xs font-medium text-ink/60">
+                        Attachments <span className="text-ink/30">(images)</span>
                       </p>
                       <AttachmentsField
                         attachments={note.attachments}
@@ -304,7 +304,7 @@ export function NoteEditorModal({
                     <HistorySection noteId={note.id} onRestore={handleRestoreVersion} />
                   </>
                 ) : (
-                  <p className="text-[11px] text-white/30">Save the note to attach images, share it, or see version history.</p>
+                  <p className="text-[11px] text-ink/30">Save the note to attach images, share it, or see version history.</p>
                 )}
 
                 <div className="flex justify-end gap-2 pt-2">

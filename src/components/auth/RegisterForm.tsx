@@ -68,8 +68,8 @@ export function RegisterForm() {
         <span className="flex h-11 w-11 items-center justify-center rounded-full border border-emerald-400/30 bg-emerald-400/10">
           <MailCheck className="h-5 w-5 text-emerald-400" aria-hidden="true" />
         </span>
-        <p className="text-sm font-medium text-white">Check your email to confirm your account.</p>
-        <p className="text-sm text-white/50">We sent a confirmation link to {email}. Click it, then sign in.</p>
+        <p className="text-sm font-medium text-ink">Check your email to confirm your account.</p>
+        <p className="text-sm text-ink/50">We sent a confirmation link to {email}. Click it, then sign in.</p>
       </div>
     )
   }

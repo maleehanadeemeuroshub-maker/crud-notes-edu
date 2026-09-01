@@ -1,5 +1,6 @@
 import { useEffect, useRef, useCallback, type ReactNode } from 'react'
 import { cn } from '@/lib/utils'
+import { useTheme } from '@/context/ThemeContext'
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -24,7 +25,8 @@ const MAX_WARP = 24
 const DOT_SPACING = 28
 const LERP_SPEED = 0.08
 
-const LINE_BASE = { r: 255, g: 255, b: 255, a: 0.13 }
+const LINE_BASE_DARK = { r: 255, g: 255, b: 255, a: 0.13 }
+const LINE_BASE_LIGHT = { r: 20, g: 18, b: 42, a: 0.13 }
 const NODE_BASE_RADIUS = 1.8
 const NODE_ACTIVE_RADIUS = 3.2
 
@@ -55,6 +57,8 @@ interface KineticGridProps {
 }
 
 export default function KineticGrid({ children, className, globalColor = 'default' }: KineticGridProps) {
+  const { theme } = useTheme()
+  const isLight = theme === 'light'
   const containerRef = useRef<HTMLDivElement>(null)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
@@ -145,7 +149,7 @@ export default function KineticGrid({ children, className, globalColor = 'defaul
 
       const theme = {
         default: {
-          bg: '#14122a',
+          bg: isLight ? '#f6f6fb' : '#14122a',
           lineActive: { r: 129, g: 140, b: 248, a: 0.9 },
           nodeActive: { r: 165, g: 180, b: 252, a: 1.0 },
           glow: '129,140,248',
@@ -160,6 +164,8 @@ export default function KineticGrid({ children, className, globalColor = 'defaul
         },
       }[globalColor ?? 'default']
 
+      const ink = isLight && globalColor !== 'monochrome' ? { r: 20, g: 18, b: 42 } : { r: 255, g: 255, b: 255 }
+
       ctx.clearRect(0, 0, W, H)
 
       // Background
@@ -167,7 +173,7 @@ export default function KineticGrid({ children, className, globalColor = 'defaul
       ctx.fillRect(0, 0, W, H)
 
       // Static background dot texture
-      ctx.fillStyle = 'rgba(255,255,255,0.05)'
+      ctx.fillStyle = `rgba(${ink.r},${ink.g},${ink.b},0.05)`
       for (let x = DOT_SPACING / 2; x < W; x += DOT_SPACING) {
         for (let y = DOT_SPACING / 2; y < H; y += DOT_SPACING) {
           ctx.beginPath()
@@ -211,7 +217,11 @@ export default function KineticGrid({ children, className, globalColor = 'defaul
         ctx.beginPath()
         ctx.moveTo(p1.x, p1.y)
         ctx.lineTo(p2.x, p2.y)
-        ctx.strokeStyle = lerpColor(LINE_BASE, theme.lineActive, t)
+        ctx.strokeStyle = lerpColor(
+          isLight && globalColor !== 'monochrome' ? LINE_BASE_LIGHT : LINE_BASE_DARK,
+          theme.lineActive,
+          t,
+        )
         ctx.lineWidth = lerpN(0.8, 1.5, t)
         ctx.stroke()
       }
@@ -247,7 +257,7 @@ export default function KineticGrid({ children, className, globalColor = 'defaul
           // Node fill
           ctx.beginPath()
           ctx.arc(p.x, p.y, r, 0, Math.PI * 2)
-          ctx.fillStyle = lerpColor({ r: 255, g: 255, b: 255, a: 0.2 }, theme.nodeActive, t)
+          ctx.fillStyle = lerpColor({ ...ink, a: 0.2 }, theme.nodeActive, t)
           ctx.fill()
         }
       }
@@ -262,7 +272,7 @@ export default function KineticGrid({ children, className, globalColor = 'defaul
         ctx.stroke()
       }
     },
-    [getWarpedPoint, globalColor],
+    [getWarpedPoint, globalColor, isLight],
   )
 
   // ── Animation loop ──────────────────────────────────────────────────────────
@@ -347,7 +357,7 @@ export default function KineticGrid({ children, className, globalColor = 'defaul
       ref={containerRef}
       className={cn(
         'relative w-full min-h-screen overflow-hidden',
-        globalColor === 'monochrome' ? 'bg-[#000000]' : 'bg-[#14122a]',
+        globalColor === 'monochrome' ? 'bg-[#000000]' : 'bg-base',
         className,
       )}
     >

@@ -20,11 +20,11 @@ export function ApiExplorer() {
             aria-pressed={activeId === endpoint.id}
             className={clsx(
               'focus-ring flex w-full items-center gap-2.5 rounded-xl px-3 py-2.5 text-left transition',
-              activeId === endpoint.id ? 'bg-white/8' : 'hover:bg-white/[0.04]',
+              activeId === endpoint.id ? 'bg-ink/8' : 'hover:bg-ink/[0.04]',
             )}
           >
             <MethodBadge method={endpoint.method} />
-            <code className="font-mono truncate text-[13px] text-white/70">{endpoint.path}</code>
+            <code className="font-mono truncate text-[13px] text-ink/70">{endpoint.path}</code>
           </button>
         ))}
       </div>
@@ -38,24 +38,24 @@ export function ApiExplorer() {
       >
         <div className="flex flex-wrap items-center gap-2.5">
           <MethodBadge method={active.method} size="md" />
-          <code className="font-mono text-sm text-white/85">{active.path}</code>
+          <code className="font-mono text-sm text-ink/85">{active.path}</code>
         </div>
-        <p className="mt-3 text-sm leading-relaxed text-white/60">{active.purpose}</p>
+        <p className="mt-3 text-sm leading-relaxed text-ink/60">{active.purpose}</p>
 
         {active.requestExample && (
           <div className="mt-4">
-            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-white/35">Request body</p>
+            <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-ink/35">Request body</p>
             <CodeBlock code={active.requestExample} language="json" />
           </div>
         )}
 
         <div className="mt-4">
-          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-white/35">Response</p>
+          <p className="mb-1.5 text-xs font-semibold uppercase tracking-wide text-ink/35">Response</p>
           <CodeBlock code={active.responseExample} language="json" />
         </div>
 
         <div className="mt-4">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-white/35">Status codes</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-ink/35">Status codes</p>
           <ul className="space-y-1.5">
             {active.statusCodes.map((sc) => (
               <li key={sc.code} className="flex items-start gap-2.5 text-sm">
@@ -69,7 +69,7 @@ export function ApiExplorer() {
                 >
                   {sc.code}
                 </span>
-                <span className="text-white/55">{sc.meaning}</span>
+                <span className="text-ink/55">{sc.meaning}</span>
               </li>
             ))}
           </ul>

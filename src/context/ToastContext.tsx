@@ -83,7 +83,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               >
                 <Icon className="mt-0.5 h-4.5 w-4.5 shrink-0" aria-hidden="true" />
                 <div className="flex-1">
-                  <p className="text-sm font-medium leading-snug text-white/90">{toast.message}</p>
+                  <p className="text-sm font-medium leading-snug text-ink/90">{toast.message}</p>
                   {toast.action && (
                     <button
                       onClick={() => {
@@ -98,7 +98,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                 </div>
                 <button
                   onClick={() => dismiss(toast.id)}
-                  className="rounded-full p-0.5 text-white/40 transition hover:text-white/80"
+                  className="rounded-full p-0.5 text-ink/40 transition hover:text-ink/80"
                   aria-label="Dismiss notification"
                 >
                   <X className="h-3.5 w-3.5" />

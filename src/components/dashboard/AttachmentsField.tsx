@@ -51,7 +51,7 @@ export function AttachmentsField({ attachments, onUpload, onRemove, maxAttachmen
     <div>
       <div className="flex flex-wrap gap-2">
         {attachments.map((attachment) => (
-          <div key={attachment.id} className="group relative h-16 w-16 overflow-hidden rounded-lg border border-white/10">
+          <div key={attachment.id} className="group relative h-16 w-16 overflow-hidden rounded-lg border border-ink/10">
             <img src={attachment.dataUrl} alt={attachment.name} className="h-full w-full object-cover" />
             <button
               type="button"
@@ -70,7 +70,7 @@ export function AttachmentsField({ attachments, onUpload, onRemove, maxAttachmen
             type="button"
             onClick={() => inputRef.current?.click()}
             disabled={uploading}
-            className="focus-ring flex h-16 w-16 flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-white/15 text-white/40 transition hover:border-white/30 hover:text-white/70 disabled:opacity-60"
+            className="focus-ring flex h-16 w-16 flex-col items-center justify-center gap-1 rounded-lg border border-dashed border-ink/15 text-ink/40 transition hover:border-ink/30 hover:text-ink/70 disabled:opacity-60"
           >
             {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Paperclip className="h-4 w-4" />}
             <span className="text-[10px]">{uploading ? 'Uploading' : 'Add image'}</span>
@@ -84,7 +84,7 @@ export function AttachmentsField({ attachments, onUpload, onRemove, maxAttachmen
         </p>
       )}
       {attachments.length > 0 && (
-        <p className="mt-1.5 text-[11px] text-white/30">
+        <p className="mt-1.5 text-[11px] text-ink/30">
           {attachments.length} image{attachments.length === 1 ? '' : 's'} · {formatBytes(attachments.reduce((sum, a) => sum + a.size, 0))}
         </p>
       )}

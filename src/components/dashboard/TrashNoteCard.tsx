@@ -36,9 +36,9 @@ export function TrashNoteCard({ note, onRestore, onDeleteForever }: TrashNoteCar
         >
           {NOTE_CATEGORY_LABELS[note.category]}
         </span>
-        <h3 className="mt-2 truncate text-[15px] font-semibold text-white/80">{note.title}</h3>
-        {note.content && <p className="mt-1 line-clamp-2 text-sm text-white/40">{note.content}</p>}
-        <p className="mt-2 text-[11px] text-white/30">
+        <h3 className="mt-2 truncate text-[15px] font-semibold text-ink/80">{note.title}</h3>
+        {note.content && <p className="mt-1 line-clamp-2 text-sm text-ink/40">{note.content}</p>}
+        <p className="mt-2 text-[11px] text-ink/30">
           Deleted {note.deletedAt ? formatDate(note.deletedAt) : ''}
           {note.deletedAt && ` · Auto-deletes in ${daysLeft(note.deletedAt)}d`}
         </p>
@@ -48,7 +48,7 @@ export function TrashNoteCard({ note, onRestore, onDeleteForever }: TrashNoteCar
           type="button"
           onClick={onRestore}
           aria-label="Restore note"
-          className="focus-ring flex h-7 w-7 items-center justify-center rounded-md text-white/45 transition hover:bg-emerald-500/10 hover:text-emerald-300"
+          className="focus-ring flex h-7 w-7 items-center justify-center rounded-md text-ink/45 transition hover:bg-emerald-500/10 hover:text-emerald-300"
         >
           <RotateCcw className="h-3.5 w-3.5" />
         </button>

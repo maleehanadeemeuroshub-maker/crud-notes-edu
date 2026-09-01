@@ -6,10 +6,25 @@
   --color-base: #14122a;
   --color-elevated: #1c1a38;
   --color-deep: #0f0d21;
+  /* Theme-adaptive foreground/overlay color. Dark theme: white text/borders on
+     dark surfaces. Light theme (see [data-theme="light"] below): flips to a
+     dark ink so text-ink/border-ink/bg-ink utilities stay legible on a light
+     surface. Genuinely-white elements (button text on a colored background,
+     switch knobs) intentionally keep using the plain `white` utilities instead
+     of this token so they don't flip. */
+  --color-ink: #ffffff;
 }
 
 :root {
   color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-ink: #14122a;
+  --color-base: #f6f6fb;
+  --color-elevated: #ffffff;
+  --color-deep: #ecebf5;
 }
 
 html,
@@ -21,14 +36,17 @@ body,
 body {
   font-family: var(--font-sans);
   background: var(--color-base);
-  color: #f2f1fb;
+  color: var(--color-ink);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 ::selection {
   background: rgba(129, 140, 248, 0.3);
-  color: #ffffff;
+  color: var(--color-ink);
 }
 
 * {
@@ -57,14 +75,22 @@ body {
 }
 
 .panel {
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--color-ink) 5%, transparent),
+    color-mix(in oklab, var(--color-ink) 2%, transparent)
+  );
+  border: 1px solid color-mix(in oklab, var(--color-ink) 9%, transparent);
   box-shadow: none;
 }
 
 .panel-glass {
-  background: linear-gradient(180deg, rgba(37, 34, 68, 0.88), rgba(24, 22, 46, 0.92));
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: linear-gradient(
+    180deg,
+    color-mix(in oklab, var(--color-elevated) 88%, transparent),
+    color-mix(in oklab, var(--color-elevated) 96%, transparent)
+  );
+  border: 1px solid color-mix(in oklab, var(--color-ink) 9%, transparent);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
 }
@@ -96,8 +122,8 @@ body {
 
 .grid-fade {
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    linear-gradient(color-mix(in oklab, var(--color-ink) 5%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in oklab, var(--color-ink) 5%, transparent) 1px, transparent 1px);
   background-size: 44px 44px;
   mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
   animation: grid-pan 60s linear infinite;
@@ -115,7 +141,7 @@ body {
 /* Rendered markdown preview inside the note editor */
 .prose-note :is(h1, h2, h3) {
   font-weight: 600;
-  color: #fff;
+  color: var(--color-ink);
   margin: 0.6em 0 0.3em;
 }
 .prose-note h1 {
@@ -150,7 +176,7 @@ body {
   text-underline-offset: 2px;
 }
 .prose-note code {
-  background: rgba(255, 255, 255, 0.08);
+  background: color-mix(in oklab, var(--color-ink) 8%, transparent);
   border-radius: 4px;
   padding: 0.1em 0.35em;
   font-family: var(--font-mono);
@@ -171,11 +197,11 @@ body {
 .prose-note blockquote {
   border-left: 2px solid rgba(129, 140, 248, 0.5);
   padding-left: 0.75em;
-  color: rgba(255, 255, 255, 0.6);
+  color: color-mix(in oklab, var(--color-ink) 60%, transparent);
   margin: 0.5em 0;
 }
 .prose-note strong {
-  color: #fff;
+  color: var(--color-ink);
   font-weight: 600;
 }
 .prose-note :first-child {
@@ -196,7 +222,7 @@ body {
 .card-interactive:hover {
   transform: translateY(-4px) scale(1.012);
   box-shadow: 0 24px 48px -20px rgba(99, 102, 241, 0.35);
-  border-color: rgba(255, 255, 255, 0.18);
+  border-color: color-mix(in oklab, var(--color-ink) 18%, transparent);
 }
 
 /* Ambient background blobs */
@@ -289,6 +315,10 @@ html.custom-cursor-active * {
   .ambient-blob {
     display: none;
   }
+}
+
+:root[data-theme="light"] .ambient-blob {
+  opacity: 0.1;
 }
 
 /* Printing a single note: hide all site chrome/interactive UI and print only

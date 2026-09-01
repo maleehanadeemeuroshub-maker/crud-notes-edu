@@ -34,7 +34,7 @@ export function ConfirmButton({ onConfirm, label, confirmLabel = 'Sure?', icon, 
           type="button"
           onClick={() => setConfirming(false)}
           aria-label="Cancel"
-          className="focus-ring rounded p-1 text-white/50 hover:bg-white/10"
+          className="focus-ring rounded p-1 text-ink/50 hover:bg-ink/10"
         >
           <X className="h-3.5 w-3.5" />
         </button>
@@ -48,7 +48,7 @@ export function ConfirmButton({ onConfirm, label, confirmLabel = 'Sure?', icon, 
       onClick={() => setConfirming(true)}
       aria-label={label}
       className={cn(
-        'focus-ring flex h-7 w-7 items-center justify-center rounded-md text-white/45 transition hover:bg-rose-500/10 hover:text-rose-300',
+        'focus-ring flex h-7 w-7 items-center justify-center rounded-md text-ink/45 transition hover:bg-rose-500/10 hover:text-rose-300',
         children && 'gap-1.5',
         className,
       )}

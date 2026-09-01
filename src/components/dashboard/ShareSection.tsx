@@ -34,7 +34,7 @@ export function ShareSection({ note, onEnable, onDisable }: ShareSectionProps) {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <p className="flex items-center gap-1.5 text-xs font-medium text-white/60">
+        <p className="flex items-center gap-1.5 text-xs font-medium text-ink/60">
           <Share2 className="h-3.5 w-3.5" />
           Public share link
         </p>
@@ -43,7 +43,7 @@ export function ShareSection({ note, onEnable, onDisable }: ShareSectionProps) {
           onClick={handleToggle}
           disabled={busy}
           aria-pressed={note.shareEnabled}
-          className={`focus-ring flex h-6 w-11 items-center rounded-full px-0.5 transition ${note.shareEnabled ? 'bg-indigo-500' : 'bg-white/10'}`}
+          className={`focus-ring flex h-6 w-11 items-center rounded-full px-0.5 transition ${note.shareEnabled ? 'bg-indigo-500' : 'bg-ink/10'}`}
         >
           <span
             className={`h-5 w-5 rounded-full bg-white shadow transition-transform ${note.shareEnabled ? 'translate-x-5' : 'translate-x-0'}`}
@@ -52,19 +52,19 @@ export function ShareSection({ note, onEnable, onDisable }: ShareSectionProps) {
       </div>
 
       {note.shareEnabled && shareUrl && (
-        <div className="mt-2 flex items-center gap-2 rounded-lg border border-white/10 bg-white/[0.03] px-3 py-2">
-          <span className="flex-1 truncate text-xs text-white/60">{shareUrl}</span>
+        <div className="mt-2 flex items-center gap-2 rounded-lg border border-ink/10 bg-ink/[0.03] px-3 py-2">
+          <span className="flex-1 truncate text-xs text-ink/60">{shareUrl}</span>
           <button
             type="button"
             onClick={handleCopy}
             aria-label="Copy share link"
-            className="focus-ring flex h-6 w-6 shrink-0 items-center justify-center rounded text-white/50 hover:text-white"
+            className="focus-ring flex h-6 w-6 shrink-0 items-center justify-center rounded text-ink/50 hover:text-ink"
           >
             {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : copied ? <Check className="h-3.5 w-3.5 text-emerald-400" /> : <Copy className="h-3.5 w-3.5" />}
           </button>
         </div>
       )}
-      {!note.shareEnabled && <p className="mt-1 text-[11px] text-white/30">Anyone with the link can view a read-only copy.</p>}
+      {!note.shareEnabled && <p className="mt-1 text-[11px] text-ink/30">Anyone with the link can view a read-only copy.</p>}
     </div>
   )
 }

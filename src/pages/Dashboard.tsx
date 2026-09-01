@@ -238,17 +238,17 @@ export function Dashboard() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-indigo-400">Dashboard</p>
-            <h1 className="mt-1 text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+            <h1 className="mt-1 text-2xl font-semibold tracking-tight text-ink sm:text-3xl">
               Welcome back, {firstName}
             </h1>
-            <p className="mt-1 text-sm text-white/45">Press "n" to add a note, "/" to search.</p>
+            <p className="mt-1 text-sm text-ink/45">Press "n" to add a note, "/" to search.</p>
           </div>
           <div className="flex items-center gap-2">
             <Button onClick={openCreate}>
               <Plus className="h-4 w-4" />
               New note
             </Button>
-            <NavLink to="/settings" aria-label="Settings" className="focus-ring flex h-10 w-10 items-center justify-center rounded-lg text-white/50 transition hover:bg-white/[0.06] hover:text-white">
+            <NavLink to="/settings" aria-label="Settings" className="focus-ring flex h-10 w-10 items-center justify-center rounded-lg text-ink/50 transition hover:bg-ink/[0.06] hover:text-ink">
               <SettingsIcon className="h-4 w-4" />
             </NavLink>
             <Button variant="ghost" onClick={handleLogout}>
@@ -265,13 +265,13 @@ export function Dashboard() {
         </div>
       </Reveal>
 
-      <div className="mt-8 flex items-center gap-1 border-b border-white/8">
+      <div className="mt-8 flex items-center gap-1 border-b border-ink/8">
         <button
           type="button"
           onClick={() => notesState.setView('notes')}
           className={cn(
             'focus-ring relative flex items-center gap-1.5 px-3 pb-3 text-sm font-medium transition',
-            notesState.view === 'notes' ? 'text-white' : 'text-white/45 hover:text-white/75',
+            notesState.view === 'notes' ? 'text-ink' : 'text-ink/45 hover:text-ink/75',
           )}
         >
           <NotebookPen className="h-3.5 w-3.5" />
@@ -285,13 +285,13 @@ export function Dashboard() {
           onClick={() => notesState.setView('trash')}
           className={cn(
             'focus-ring relative flex items-center gap-1.5 px-3 pb-3 text-sm font-medium transition',
-            notesState.view === 'trash' ? 'text-white' : 'text-white/45 hover:text-white/75',
+            notesState.view === 'trash' ? 'text-ink' : 'text-ink/45 hover:text-ink/75',
           )}
         >
           <Trash2 className="h-3.5 w-3.5" />
           Trash
           {notesState.trash.length > 0 && (
-            <span className="rounded-full bg-white/10 px-1.5 text-[10px] text-white/60">{notesState.trash.length}</span>
+            <span className="rounded-full bg-ink/10 px-1.5 text-[10px] text-ink/60">{notesState.trash.length}</span>
           )}
           {notesState.view === 'trash' && (
             <motion.span layoutId="dashboard-tab" className="absolute inset-x-0 -bottom-px h-0.5 rounded-full bg-indigo-400" />
@@ -378,7 +378,7 @@ export function Dashboard() {
               <div className="space-y-8">
                 {notesState.pinnedNotes.length > 0 && (
                   <div>
-                    <p className="mb-3 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-white/40">
+                    <p className="mb-3 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wide text-ink/40">
                       <Pin className="h-3 w-3" />
                       Pinned
                     </p>
@@ -406,7 +406,7 @@ export function Dashboard() {
                 {notesState.otherNotes.length > 0 && (
                   <div>
                     {notesState.pinnedNotes.length > 0 && (
-                      <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-white/40">Others</p>
+                      <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-ink/40">Others</p>
                     )}
                     <motion.div layout className={gridClass}>
                       <AnimatePresence mode="popLayout">

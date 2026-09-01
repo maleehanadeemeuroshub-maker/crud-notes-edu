@@ -42,7 +42,7 @@ export function ExportImportMenu({ notes, onImport, onImported, onError }: Expor
         onClick={() => setOpen((v) => !v)}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="focus-ring panel flex h-9 items-center gap-1.5 rounded-lg px-3 text-xs font-medium text-white/70 hover:text-white"
+        className="focus-ring panel flex h-9 items-center gap-1.5 rounded-lg px-3 text-xs font-medium text-ink/70 hover:text-ink"
       >
         {importing ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Download className="h-3.5 w-3.5" />}
         Export / Import
@@ -64,7 +64,7 @@ export function ExportImportMenu({ notes, onImport, onImported, onError }: Expor
                 exportNotesAsJson(notes)
                 setOpen(false)
               }}
-              className="focus-ring flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs text-white/75 transition hover:bg-white/[0.06] hover:text-white disabled:opacity-40"
+              className="focus-ring flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs text-ink/75 transition hover:bg-ink/[0.06] hover:text-ink disabled:opacity-40"
             >
               <Download className="h-3.5 w-3.5" />
               Export as JSON
@@ -77,12 +77,12 @@ export function ExportImportMenu({ notes, onImport, onImported, onError }: Expor
                 exportNotesAsMarkdown(notes)
                 setOpen(false)
               }}
-              className="focus-ring flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs text-white/75 transition hover:bg-white/[0.06] hover:text-white disabled:opacity-40"
+              className="focus-ring flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs text-ink/75 transition hover:bg-ink/[0.06] hover:text-ink disabled:opacity-40"
             >
               <Download className="h-3.5 w-3.5" />
               Export as Markdown
             </button>
-            <div className="my-1 h-px bg-white/8" />
+            <div className="my-1 h-px bg-ink/8" />
             <button
               type="button"
               role="menuitem"
@@ -90,7 +90,7 @@ export function ExportImportMenu({ notes, onImport, onImported, onError }: Expor
                 fileInputRef.current?.click()
                 setOpen(false)
               }}
-              className="focus-ring flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs text-white/75 transition hover:bg-white/[0.06] hover:text-white"
+              className="focus-ring flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left text-xs text-ink/75 transition hover:bg-ink/[0.06] hover:text-ink"
             >
               <Upload className="h-3.5 w-3.5" />
               Import from JSON

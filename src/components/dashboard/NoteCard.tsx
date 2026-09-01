@@ -44,7 +44,7 @@ export function NoteCard({
       whileHover={{ y: -3, scale: 1.005, boxShadow: '0 24px 48px -20px rgba(99,102,241,0.35)' }}
       transition={{ duration: 0.25 }}
       className={cn(
-        'panel group flex rounded-2xl p-5 transition-colors duration-300 hover:border-white/16',
+        'panel group flex rounded-2xl p-5 transition-colors duration-300 hover:border-ink/16',
         isList ? 'flex-row items-start gap-4' : 'h-full flex-col',
         note.pinned && 'border-indigo-400/30',
         selected && 'border-indigo-400/50 bg-indigo-400/[0.04]',
@@ -59,7 +59,7 @@ export function NoteCard({
           aria-pressed={selected}
           className={cn(
             'focus-ring mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border transition',
-            selected ? 'border-indigo-400 bg-indigo-500 text-white' : 'border-white/25 text-transparent hover:border-white/50',
+            selected ? 'border-indigo-400 bg-indigo-500 text-white' : 'border-ink/25 text-transparent hover:border-ink/50',
           )}
         >
           <Check className="h-3 w-3" />
@@ -84,7 +84,7 @@ export function NoteCard({
                 aria-label={`${note.priority} priority`}
               />
               {note.attachments.length > 0 && (
-                <span className="flex items-center gap-1 text-[11px] text-white/35">
+                <span className="flex items-center gap-1 text-[11px] text-ink/35">
                   <ImageIcon className="h-3 w-3" />
                   {note.attachments.length}
                 </span>
@@ -92,11 +92,11 @@ export function NoteCard({
             </div>
 
             <button type="button" onClick={onEdit} className="focus-ring mt-2.5 block w-full rounded-lg text-left">
-              <h3 className={cn('font-semibold text-white', isList ? 'truncate text-[15px]' : 'line-clamp-2 text-[15px]')}>
+              <h3 className={cn('font-semibold text-ink', isList ? 'truncate text-[15px]' : 'line-clamp-2 text-[15px]')}>
                 {note.title}
               </h3>
               {note.content && (
-                <p className={cn('mt-1.5 text-sm leading-relaxed text-white/50', isList ? 'line-clamp-1' : 'line-clamp-4')}>
+                <p className={cn('mt-1.5 text-sm leading-relaxed text-ink/50', isList ? 'line-clamp-1' : 'line-clamp-4')}>
                   {stripMarkdown(note.content)}
                 </p>
               )}
@@ -105,18 +105,18 @@ export function NoteCard({
             {note.tags.length > 0 && (
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {note.tags.map((tag) => (
-                  <span key={tag} className="rounded-md bg-white/[0.05] px-1.5 py-0.5 text-[11px] text-white/45">
+                  <span key={tag} className="rounded-md bg-ink/[0.05] px-1.5 py-0.5 text-[11px] text-ink/45">
                     #{tag}
                   </span>
                 ))}
               </div>
             )}
 
-            {!isList && <p className="mt-3 text-[11px] text-white/30">Updated {formatDate(note.updatedAt)}</p>}
+            {!isList && <p className="mt-3 text-[11px] text-ink/30">Updated {formatDate(note.updatedAt)}</p>}
           </div>
 
           {isList && (
-            <p className="shrink-0 whitespace-nowrap text-[11px] text-white/30">{formatDate(note.updatedAt)}</p>
+            <p className="shrink-0 whitespace-nowrap text-[11px] text-ink/30">{formatDate(note.updatedAt)}</p>
           )}
         </div>
 
@@ -132,8 +132,8 @@ export function NoteCard({
             aria-label={note.pinned ? 'Unpin note' : 'Pin note'}
             aria-pressed={note.pinned}
             className={cn(
-              'focus-ring flex h-7 w-7 items-center justify-center rounded-md transition hover:bg-white/10',
-              note.pinned ? 'text-indigo-400' : 'text-white/40 hover:text-white/80',
+              'focus-ring flex h-7 w-7 items-center justify-center rounded-md transition hover:bg-ink/10',
+              note.pinned ? 'text-indigo-400' : 'text-ink/40 hover:text-ink/80',
             )}
           >
             <Pin className={cn('h-3.5 w-3.5', note.pinned && 'fill-current')} />
@@ -144,8 +144,8 @@ export function NoteCard({
             aria-label={note.favorite ? 'Remove from favorites' : 'Add to favorites'}
             aria-pressed={note.favorite}
             className={cn(
-              'focus-ring flex h-7 w-7 items-center justify-center rounded-md transition hover:bg-white/10',
-              note.favorite ? 'text-amber-400' : 'text-white/40 hover:text-white/80',
+              'focus-ring flex h-7 w-7 items-center justify-center rounded-md transition hover:bg-ink/10',
+              note.favorite ? 'text-amber-400' : 'text-ink/40 hover:text-ink/80',
             )}
           >
             <Star className={cn('h-3.5 w-3.5', note.favorite && 'fill-current')} />
@@ -154,7 +154,7 @@ export function NoteCard({
             type="button"
             onClick={onEdit}
             aria-label="Edit note"
-            className="focus-ring flex h-7 w-7 items-center justify-center rounded-md text-white/40 transition hover:bg-white/10 hover:text-white/80"
+            className="focus-ring flex h-7 w-7 items-center justify-center rounded-md text-ink/40 transition hover:bg-ink/10 hover:text-ink/80"
           >
             <Pencil className="h-3.5 w-3.5" />
           </button>
@@ -162,7 +162,7 @@ export function NoteCard({
             type="button"
             onClick={onDelete}
             aria-label="Move to trash"
-            className="focus-ring flex h-7 w-7 items-center justify-center rounded-md text-white/40 transition hover:bg-rose-500/10 hover:text-rose-300"
+            className="focus-ring flex h-7 w-7 items-center justify-center rounded-md text-ink/40 transition hover:bg-rose-500/10 hover:text-rose-300"
           >
             <Trash2 className="h-3.5 w-3.5" />
           </button>

@@ -35,8 +35,8 @@ export function CrudFlowStack() {
                 transition={{ type: 'spring', stiffness: 400, damping: 26 }}
                 className="focus-ring group relative w-full min-w-[150px] rounded-xl border p-3.5 text-left transition-colors lg:min-w-0"
                 style={{
-                  borderColor: isActive ? opTheme.border : 'rgba(255,255,255,0.08)',
-                  background: isActive ? opTheme.accentSoft : 'rgba(255,255,255,0.02)',
+                  borderColor: isActive ? opTheme.border : 'color-mix(in oklab, var(--color-ink) 8%, transparent)',
+                  background: isActive ? opTheme.accentSoft : 'color-mix(in oklab, var(--color-ink) 2%, transparent)',
                 }}
               >
                 <div className="flex items-center gap-2.5">
@@ -49,13 +49,13 @@ export function CrudFlowStack() {
                     <Icon className="h-4 w-4" />
                   </motion.span>
                   <div>
-                    <p className="font-mono text-[13px] font-bold text-white">{op.verb}</p>
-                    <p className="text-[11px] text-white/40">{op.sqlKeyword}</p>
+                    <p className="font-mono text-[13px] font-bold text-ink">{op.verb}</p>
+                    <p className="text-[11px] text-ink/40">{op.sqlKeyword}</p>
                   </div>
                 </div>
               </motion.button>
               {i < OPERATIONS.length - 1 && (
-                <ArrowRight className="hidden h-4 w-4 shrink-0 rotate-90 text-white/20 lg:block lg:self-center" />
+                <ArrowRight className="hidden h-4 w-4 shrink-0 rotate-90 text-ink/20 lg:block lg:self-center" />
               )}
             </div>
           )
@@ -79,8 +79,8 @@ export function CrudFlowStack() {
               <theme.icon className="h-5 w-5" />
             </span>
             <div>
-              <h3 className="text-lg font-semibold text-white">{activeOp.label}</h3>
-              <p className="text-sm text-white/45">{activeOp.tagline}</p>
+              <h3 className="text-lg font-semibold text-ink">{activeOp.label}</h3>
+              <p className="text-sm text-ink/45">{activeOp.tagline}</p>
             </div>
             <div className="ml-auto flex items-center gap-1.5">
               {activeOp.httpMethods.map((m) => (
@@ -89,16 +89,16 @@ export function CrudFlowStack() {
             </div>
           </div>
 
-          <p className="mt-4 text-sm leading-relaxed text-white/65">{activeOp.meaning}</p>
+          <p className="mt-4 text-sm leading-relaxed text-ink/65">{activeOp.meaning}</p>
 
           <div className="mt-4 grid gap-3 sm:grid-cols-2">
-            <div className="rounded-lg border border-white/8 bg-white/[0.02] p-3">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-white/35">Database action</p>
-              <p className="font-mono mt-1 text-sm text-white/75">{activeOp.sqlKeyword}</p>
+            <div className="rounded-lg border border-ink/8 bg-ink/[0.02] p-3">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-ink/35">Database action</p>
+              <p className="font-mono mt-1 text-sm text-ink/75">{activeOp.sqlKeyword}</p>
             </div>
-            <div className="rounded-lg border border-white/8 bg-white/[0.02] p-3">
-              <p className="text-[11px] font-semibold uppercase tracking-wide text-white/35">Example</p>
-              <p className="mt-1 text-sm text-white/75">{activeOp.realWorldExample}</p>
+            <div className="rounded-lg border border-ink/8 bg-ink/[0.02] p-3">
+              <p className="text-[11px] font-semibold uppercase tracking-wide text-ink/35">Example</p>
+              <p className="mt-1 text-sm text-ink/75">{activeOp.realWorldExample}</p>
             </div>
           </div>
         </motion.div>

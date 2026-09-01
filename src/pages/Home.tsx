@@ -120,7 +120,7 @@ export function Home() {
 
   return (
     <div>
-      <KineticGrid className="border-b border-white/10">
+      <KineticGrid className="border-b border-ink/10">
         <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
           {FLOATING_CHIPS.map((chip) => (
             <FloatingCard
@@ -157,7 +157,7 @@ export function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.15 }}
-            className="font-mono mx-auto mb-6 flex w-fit items-center gap-2 rounded-full border border-white/15 bg-white/[0.06] px-3.5 py-1.5 text-xs text-white/70"
+            className="font-mono mx-auto mb-6 flex w-fit items-center gap-2 rounded-full border border-ink/15 bg-ink/[0.06] px-3.5 py-1.5 text-xs text-ink/70"
           >
             <Terminal className="h-3.5 w-3.5 text-indigo-400" />
             A developer learning platform
@@ -167,7 +167,7 @@ export function Home() {
             initial={{ opacity: 0, y: 18, filter: 'blur(10px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
-            className="text-4xl font-bold tracking-tight text-white sm:text-6xl"
+            className="text-4xl font-bold tracking-tight text-ink sm:text-6xl"
           >
             CRUD <span className="text-gradient">Notes</span>
           </motion.h1>
@@ -176,7 +176,7 @@ export function Home() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.45 }}
-            className="mx-auto mt-4 max-w-2xl text-lg text-white/70"
+            className="mx-auto mt-4 max-w-2xl text-lg text-ink/70"
           >
             Learn CRUD operations from database fundamentals to real-world API implementation.
           </motion.p>
@@ -185,7 +185,7 @@ export function Home() {
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.55 }}
-            className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-white/45"
+            className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-ink/45"
           >
             CRUD represents the four fundamental operations used to work with persistent data:
             <span className="font-mono text-emerald-400"> Create</span> →
@@ -233,7 +233,7 @@ export function Home() {
         </div>
       </section>
 
-      <section className="border-t border-white/8 bg-white/[0.012] py-16 sm:py-20">
+      <section className="border-t border-ink/8 bg-ink/[0.012] py-16 sm:py-20">
         <div className="mx-auto max-w-6xl px-4 sm:px-6">
           <Reveal>
             <SectionHeading
@@ -263,10 +263,10 @@ export function Home() {
         </div>
       </section>
 
-      <section className="border-t border-white/8 py-16 sm:py-20">
+      <section className="border-t border-ink/8 py-16 sm:py-20">
         <div className="mx-auto max-w-3xl px-4 text-center sm:px-6">
-          <h2 className="text-2xl font-semibold text-white sm:text-3xl">Ready to build something?</h2>
-          <p className="mt-3 text-white/50">
+          <h2 className="text-2xl font-semibold text-ink sm:text-3xl">Ready to build something?</h2>
+          <p className="mt-3 text-ink/50">
             Jump into the interactive playground and practice Create, Read, Update, and Delete on a real dataset.
           </p>
           <Magnetic strength={0.25} className="mt-6 inline-block">

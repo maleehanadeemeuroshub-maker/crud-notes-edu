@@ -43,7 +43,7 @@ export function HistorySection({ noteId, onRestore }: HistorySectionProps) {
       <button
         type="button"
         onClick={handleOpen}
-        className="focus-ring flex w-full items-center justify-between text-xs font-medium text-white/60 hover:text-white/80"
+        className="focus-ring flex w-full items-center justify-between text-xs font-medium text-ink/60 hover:text-ink/80"
       >
         <span className="flex items-center gap-1.5">
           <History className="h-3.5 w-3.5" />
@@ -53,17 +53,17 @@ export function HistorySection({ noteId, onRestore }: HistorySectionProps) {
       </button>
 
       {open && (
-        <div className="mt-2 max-h-48 space-y-1.5 overflow-y-auto rounded-lg border border-white/10 bg-white/[0.02] p-2">
+        <div className="mt-2 max-h-48 space-y-1.5 overflow-y-auto rounded-lg border border-ink/10 bg-ink/[0.02] p-2">
           {loading ? (
             <div className="flex justify-center py-3">
-              <Loader2 className="h-4 w-4 animate-spin text-white/40" />
+              <Loader2 className="h-4 w-4 animate-spin text-ink/40" />
             </div>
           ) : versions && versions.length > 0 ? (
             versions.map((v) => (
-              <div key={v.id} className="flex items-center justify-between gap-2 rounded-md px-2 py-1.5 hover:bg-white/[0.04]">
+              <div key={v.id} className="flex items-center justify-between gap-2 rounded-md px-2 py-1.5 hover:bg-ink/[0.04]">
                 <div className="min-w-0">
-                  <p className="truncate text-xs text-white/70">{v.title}</p>
-                  <p className="text-[10px] text-white/30">{formatDate(v.createdAt)}</p>
+                  <p className="truncate text-xs text-ink/70">{v.title}</p>
+                  <p className="text-[10px] text-ink/30">{formatDate(v.createdAt)}</p>
                 </div>
                 <button
                   type="button"
@@ -77,7 +77,7 @@ export function HistorySection({ noteId, onRestore }: HistorySectionProps) {
               </div>
             ))
           ) : (
-            <p className="px-2 py-2 text-xs text-white/30">No earlier versions yet — edit and save this note to start building history.</p>
+            <p className="px-2 py-2 text-xs text-ink/30">No earlier versions yet — edit and save this note to start building history.</p>
           )}
         </div>
       )}

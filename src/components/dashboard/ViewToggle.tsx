@@ -17,7 +17,7 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
         aria-label="Grid view"
         className={cn(
           'focus-ring flex h-8 w-8 items-center justify-center rounded-md transition',
-          value === 'grid' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white/70',
+          value === 'grid' ? 'bg-ink/10 text-ink' : 'text-ink/40 hover:text-ink/70',
         )}
       >
         <LayoutGrid className="h-3.5 w-3.5" />
@@ -29,7 +29,7 @@ export function ViewToggle({ value, onChange }: ViewToggleProps) {
         aria-label="List view"
         className={cn(
           'focus-ring flex h-8 w-8 items-center justify-center rounded-md transition',
-          value === 'list' ? 'bg-white/10 text-white' : 'text-white/40 hover:text-white/70',
+          value === 'list' ? 'bg-ink/10 text-ink' : 'text-ink/40 hover:text-ink/70',
         )}
       >
         <List className="h-3.5 w-3.5" />

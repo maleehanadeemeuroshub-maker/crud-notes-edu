@@ -19,7 +19,7 @@ export function BulkActionBar({ count, onMoveToTrash, onSetCategory, onClear }: 
       exit={{ opacity: 0, y: -8 }}
       className="panel-glass sticky top-20 z-10 mb-4 flex flex-wrap items-center gap-3 rounded-xl px-4 py-3"
     >
-      <span className="text-sm font-medium text-white">{count} selected</span>
+      <span className="text-sm font-medium text-ink">{count} selected</span>
       <div className="relative">
         <select
           onChange={(e) => {
@@ -28,7 +28,7 @@ export function BulkActionBar({ count, onMoveToTrash, onSetCategory, onClear }: 
           }}
           defaultValue=""
           aria-label="Move selected notes to category"
-          className="focus-ring panel h-8 appearance-none rounded-lg py-0 pl-3 pr-7 text-xs font-medium text-white/80"
+          className="focus-ring panel h-8 appearance-none rounded-lg py-0 pl-3 pr-7 text-xs font-medium text-ink/80"
         >
           <option value="" disabled>
             Move to category…
@@ -39,7 +39,7 @@ export function BulkActionBar({ count, onMoveToTrash, onSetCategory, onClear }: 
             </option>
           ))}
         </select>
-        <ChevronDown className="pointer-events-none absolute right-2 top-1/2 h-3 w-3 -translate-y-1/2 text-white/40" />
+        <ChevronDown className="pointer-events-none absolute right-2 top-1/2 h-3 w-3 -translate-y-1/2 text-ink/40" />
       </div>
       <Button size="sm" variant="danger" onClick={onMoveToTrash}>
         <Trash2 className="h-3.5 w-3.5" />
@@ -49,7 +49,7 @@ export function BulkActionBar({ count, onMoveToTrash, onSetCategory, onClear }: 
         type="button"
         onClick={onClear}
         aria-label="Clear selection"
-        className="focus-ring ml-auto flex h-8 items-center gap-1 rounded-lg px-2 text-xs text-white/50 hover:text-white/80"
+        className="focus-ring ml-auto flex h-8 items-center gap-1 rounded-lg px-2 text-xs text-ink/50 hover:text-ink/80"
       >
         <X className="h-3.5 w-3.5" />
         Clear

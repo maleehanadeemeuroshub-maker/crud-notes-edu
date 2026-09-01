@@ -282,6 +282,20 @@ export const NOTES: KnowledgeNote[] = [
     tags: ['frontend', 'crud', 'ui'],
   },
   {
+    id: 'fetch-vs-axios',
+    title: 'Fetch vs. Axios — Making HTTP Requests from the Frontend',
+    category: 'frontend',
+    summary: 'Two ways to fire off the same CRUD request from JavaScript.',
+    body: [
+      'fetch() is a native browser API — no install required. You call fetch(url, options), get back a Promise that resolves to a Response object, and then have to call .json() yourself to read the body. Axios is a third-party library that wraps this kind of request-making in a friendlier API: it parses JSON automatically, lets you set a base URL and default headers once, and supports request/response interceptors for things like attaching an auth token to every outgoing request.',
+      'The biggest functional difference is error handling. fetch() only rejects its Promise on a network failure (like the request never reaching the server) — a 404 or 500 response is still treated as a "successful" fetch, so you have to check response.ok yourself before trusting the data. Axios rejects the Promise for any non-2xx status automatically, so a plain try/catch around an Axios call reliably catches both network errors and HTTP error responses.',
+      'Neither is "more correct" for CRUD work — both end up sending the same GET/POST/PUT/PATCH/DELETE requests. Fetch keeps your bundle smaller and avoids a dependency; Axios saves boilerplate once an app has more than a couple of endpoints, especially for shared config like auth headers, timeouts, and consistent error shapes.',
+    ],
+    tags: ['frontend', 'http', 'fetch', 'axios'],
+    calloutType: 'common-mistake',
+    callout: 'Assuming fetch() throws on a 404 or 500 the way Axios does. It doesn\'t — always check response.ok (or response.status) before treating a fetch response as successful.',
+  },
+  {
     id: 'optimistic-vs-pessimistic-updates',
     title: 'Optimistic vs. Pessimistic UI Updates',
     category: 'frontend',

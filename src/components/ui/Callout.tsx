@@ -38,7 +38,7 @@ export function Callout({ type, children }: CalloutProps) {
       <Icon className={`h-4.5 w-4.5 shrink-0 mt-0.5 ${config.iconClass}`} aria-hidden="true" />
       <div>
         <p className={`text-xs font-bold uppercase tracking-wide ${config.iconClass}`}>{config.label}</p>
-        <p className="mt-1 text-sm leading-relaxed text-white/75">{children}</p>
+        <p className="mt-1 text-sm leading-relaxed text-ink/75">{children}</p>
       </div>
     </div>
   )

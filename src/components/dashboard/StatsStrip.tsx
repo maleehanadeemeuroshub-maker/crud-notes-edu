@@ -39,28 +39,28 @@ export function StatsStrip({ notes, trashCount }: StatsStripProps) {
             <Icon className="h-4 w-4" />
           </span>
           <div>
-            <p className="text-lg font-semibold leading-none text-white">{value}</p>
-            <p className="mt-1 text-[11px] text-white/40">{label}</p>
+            <p className="text-lg font-semibold leading-none text-ink">{value}</p>
+            <p className="mt-1 text-[11px] text-ink/40">{label}</p>
           </div>
         </div>
       ))}
 
       <div className="panel rounded-xl px-4 py-3">
-        <p className="mb-2 text-[11px] font-medium text-white/40">By category</p>
+        <p className="mb-2 text-[11px] font-medium text-ink/40">By category</p>
         <div className="space-y-1.5">
           {NOTE_CATEGORIES.map((cat) => {
             const count = categoryCounts[cat] ?? 0
             const color = CATEGORY_COLORS[cat]
             return (
               <div key={cat} className="flex items-center gap-2">
-                <span className="w-14 shrink-0 text-[11px] text-white/45">{NOTE_CATEGORY_LABELS[cat]}</span>
-                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-white/[0.06]">
+                <span className="w-14 shrink-0 text-[11px] text-ink/45">{NOTE_CATEGORY_LABELS[cat]}</span>
+                <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-ink/[0.06]">
                   <div
                     className="h-full rounded-full transition-all duration-500"
                     style={{ width: `${(count / maxCategoryCount) * 100}%`, background: color }}
                   />
                 </div>
-                <span className="w-4 shrink-0 text-right text-[11px] text-white/30">{count}</span>
+                <span className="w-4 shrink-0 text-right text-[11px] text-ink/30">{count}</span>
               </div>
             )
           })}

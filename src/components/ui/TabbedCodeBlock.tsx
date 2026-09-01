@@ -29,8 +29,8 @@ export function TabbedCodeBlock({ code }: TabbedCodeBlockProps) {
             className={clsx(
               'focus-ring rounded-md px-3 py-1.5 text-xs font-medium transition',
               active === tab.key
-                ? 'bg-white/10 text-white'
-                : 'text-white/45 hover:bg-white/[0.05] hover:text-white/75',
+                ? 'bg-ink/10 text-ink'
+                : 'text-ink/45 hover:bg-ink/[0.05] hover:text-ink/75',
             )}
           >
             {tab.label}

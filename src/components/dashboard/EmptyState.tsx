@@ -17,12 +17,12 @@ export function EmptyState({ icon, title, description, action }: EmptyStateProps
       transition={{ duration: 0.25 }}
       className="panel flex flex-col items-center gap-3 rounded-2xl px-6 py-16 text-center"
     >
-      <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white/40">
+      <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-ink/10 bg-ink/[0.04] text-ink/40">
         {icon}
       </span>
       <div>
-        <p className="text-sm font-medium text-white/70">{title}</p>
-        <p className="mt-1 text-sm text-white/40">{description}</p>
+        <p className="text-sm font-medium text-ink/70">{title}</p>
+        <p className="mt-1 text-sm text-ink/40">{description}</p>
       </div>
       {action}
     </motion.div>

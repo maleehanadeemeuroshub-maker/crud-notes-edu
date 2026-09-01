@@ -33,8 +33,8 @@ export function ForgotPassword() {
           <span className="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-xl border border-indigo-500/30 bg-indigo-500/10">
             <KeyRound className="h-5 w-5 text-indigo-400" aria-hidden="true" />
           </span>
-          <h1 className="text-2xl font-semibold tracking-tight text-white">Reset your password</h1>
-          <p className="mt-2 text-sm text-white/50">Enter your email and we'll send you a reset link.</p>
+          <h1 className="text-2xl font-semibold tracking-tight text-ink">Reset your password</h1>
+          <p className="mt-2 text-sm text-ink/50">Enter your email and we'll send you a reset link.</p>
         </div>
 
         <div className="panel rounded-2xl p-6 sm:p-8">
@@ -50,7 +50,7 @@ export function ForgotPassword() {
                 </div>
               )}
               <div>
-                <label htmlFor="email" className="mb-1.5 block text-xs font-medium text-white/60">
+                <label htmlFor="email" className="mb-1.5 block text-xs font-medium text-ink/60">
                   Email
                 </label>
                 <TextInput
@@ -72,7 +72,7 @@ export function ForgotPassword() {
           )}
         </div>
 
-        <p className="mt-6 text-center text-sm text-white/45">
+        <p className="mt-6 text-center text-sm text-ink/45">
           Remembered your password?{' '}
           <NavLink to="/login" className="focus-ring rounded font-medium text-indigo-400 hover:text-indigo-300">
             Sign in

@@ -9,7 +9,7 @@ export function LearningPath() {
 
   return (
     <div className="relative">
-      <div className="absolute bottom-0 left-[19px] top-0 w-px bg-white/8 sm:left-[23px]" aria-hidden="true" />
+      <div className="absolute bottom-0 left-[19px] top-0 w-px bg-ink/8 sm:left-[23px]" aria-hidden="true" />
       <ol className="space-y-3">
         {LEARNING_PATH.map((step, i) => {
           const topicId = `path-${step.id}`
@@ -24,18 +24,18 @@ export function LearningPath() {
                   className={`focus-ring flex h-10 w-10 shrink-0 items-center justify-center rounded-full border font-mono text-sm font-bold transition ${
                     done
                       ? 'border-emerald-400 bg-emerald-400 text-[#06110c]'
-                      : 'border-white/15 bg-elevated text-white/50 hover:border-emerald-400/50 hover:text-emerald-400'
+                      : 'border-ink/15 bg-elevated text-ink/50 hover:border-emerald-400/50 hover:text-emerald-400'
                   }`}
                 >
                   {done ? <Check className="h-4 w-4" strokeWidth={3} /> : String(step.order).padStart(2, '0')}
                 </button>
                 <div className="min-w-0 flex-1">
-                  <p className="font-semibold text-white">{step.title}</p>
-                  <p className="mt-0.5 text-sm leading-relaxed text-white/50">{step.description}</p>
+                  <p className="font-semibold text-ink">{step.title}</p>
+                  <p className="mt-0.5 text-sm leading-relaxed text-ink/50">{step.description}</p>
                 </div>
                 <Link
                   to={step.linkTo}
-                  className="focus-ring flex shrink-0 items-center gap-1 self-center rounded-lg border border-white/10 px-2.5 py-1.5 text-xs font-medium text-white/55 transition hover:bg-white/[0.06] hover:text-white"
+                  className="focus-ring flex shrink-0 items-center gap-1 self-center rounded-lg border border-ink/10 px-2.5 py-1.5 text-xs font-medium text-ink/55 transition hover:bg-ink/[0.06] hover:text-ink"
                 >
                   Go
                   <ArrowUpRight className="h-3 w-3" />

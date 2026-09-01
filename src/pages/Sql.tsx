@@ -32,8 +32,8 @@ export function Sql() {
                 >
                   <theme.icon className="h-4 w-4" />
                 </span>
-                <h3 className="text-lg font-semibold text-white">
-                  {operation.label} <span className="font-mono text-sm text-white/35">— {operation.sqlKeyword}</span>
+                <h3 className="text-lg font-semibold text-ink">
+                  {operation.label} <span className="font-mono text-sm text-ink/35">— {operation.sqlKeyword}</span>
                 </h3>
               </div>
               <TabbedCodeBlock code={operation.code} />

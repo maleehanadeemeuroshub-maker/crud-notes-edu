@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
+import { ThemeProvider } from '@/context/ThemeContext'
 import { ToastProvider } from '@/context/ToastContext'
 import { ProgressProvider } from '@/context/ProgressContext'
 import { AuthProvider } from '@/context/AuthContext'
@@ -111,22 +112,24 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <ToastProvider>
-      <AuthProvider>
-        <ProgressProvider>
-          <div className="flex min-h-screen flex-col bg-base">
-            <AmbientBackground />
-            <CustomCursor />
-            <ScrollToTop />
-            <Navbar />
-            <main className="flex-1">
-              <AnimatedRoutes />
-            </main>
-            <Footer />
-          </div>
-        </ProgressProvider>
-      </AuthProvider>
-    </ToastProvider>
+    <ThemeProvider>
+      <ToastProvider>
+        <AuthProvider>
+          <ProgressProvider>
+            <div className="flex min-h-screen flex-col bg-base">
+              <AmbientBackground />
+              <CustomCursor />
+              <ScrollToTop />
+              <Navbar />
+              <main className="flex-1">
+                <AnimatedRoutes />
+              </main>
+              <Footer />
+            </div>
+          </ProgressProvider>
+        </AuthProvider>
+      </ToastProvider>
+    </ThemeProvider>
   )
 }
 

@@ -1,4 +1,5 @@
 import { ApiExplorer } from '@/components/api/ApiExplorer'
+import { FetchVsAxiosDemo } from '@/components/api/FetchVsAxiosDemo'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Reveal } from '@/components/ui/Reveal'
 import { MethodBadge } from '@/components/ui/MethodBadge'
@@ -24,6 +25,21 @@ export function Api() {
         <Reveal delay={0.05}>
           <ApiExplorer />
         </Reveal>
+      </div>
+
+      <div className="mt-16">
+        <Reveal>
+          <SectionHeading
+            kicker="Live demo"
+            title="Try it yourself: fetch() vs. Axios"
+            description="Same request, two ways to send it. Pick a method and run each side to see the real response, status code, and timing."
+          />
+        </Reveal>
+        <div className="mt-8">
+          <Reveal delay={0.05}>
+            <FetchVsAxiosDemo />
+          </Reveal>
+        </div>
       </div>
     </div>
   )

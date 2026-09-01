@@ -60,7 +60,7 @@ export function RichTextToolbar({ textareaRef, value, onChange }: RichTextToolba
   ]
 
   return (
-    <div className="flex items-center gap-0.5 rounded-md bg-white/[0.04] p-0.5">
+    <div className="flex items-center gap-0.5 rounded-md bg-ink/[0.04] p-0.5">
       {buttons.map(({ kind, icon: Icon, label }) => (
         <button
           key={kind}
@@ -68,7 +68,7 @@ export function RichTextToolbar({ textareaRef, value, onChange }: RichTextToolba
           onClick={() => run(kind)}
           aria-label={label}
           title={label}
-          className="focus-ring flex h-6 w-6 items-center justify-center rounded text-white/50 transition hover:bg-white/10 hover:text-white"
+          className="focus-ring flex h-6 w-6 items-center justify-center rounded text-ink/50 transition hover:bg-ink/10 hover:text-ink"
         >
           <Icon className="h-3.5 w-3.5" />
         </button>

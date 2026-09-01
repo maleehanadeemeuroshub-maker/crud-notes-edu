@@ -110,7 +110,7 @@ export function Settings() {
 
       <Reveal delay={0.05}>
         <form onSubmit={handleProfileSubmit} className="panel mt-8 space-y-4 rounded-2xl p-6">
-          <h2 className="text-sm font-semibold text-white">Profile</h2>
+          <h2 className="text-sm font-semibold text-ink">Profile</h2>
 
           <div className="flex items-center gap-4">
             <button
@@ -118,12 +118,12 @@ export function Settings() {
               onClick={() => avatarInputRef.current?.click()}
               disabled={avatarUploading}
               aria-label="Change avatar"
-              className="focus-ring group relative h-16 w-16 shrink-0 overflow-hidden rounded-full border border-white/10 bg-white/[0.04]"
+              className="focus-ring group relative h-16 w-16 shrink-0 overflow-hidden rounded-full border border-ink/10 bg-ink/[0.04]"
             >
               {user?.avatarUrl ? (
                 <img src={user.avatarUrl} alt="" className="h-full w-full object-cover" />
               ) : (
-                <span className="flex h-full w-full items-center justify-center text-lg font-semibold text-white/40">
+                <span className="flex h-full w-full items-center justify-center text-lg font-semibold text-ink/40">
                   {user?.fullName?.[0]?.toUpperCase() ?? '?'}
                 </span>
               )}
@@ -132,8 +132,8 @@ export function Settings() {
               </span>
             </button>
             <div>
-              <p className="text-sm font-medium text-white">Profile photo</p>
-              <p className="text-xs text-white/40">Click the circle to upload a new one.</p>
+              <p className="text-sm font-medium text-ink">Profile photo</p>
+              <p className="text-xs text-ink/40">Click the circle to upload a new one.</p>
             </div>
             <input ref={avatarInputRef} type="file" accept="image/*" onChange={handleAvatarChange} className="hidden" />
           </div>
@@ -165,7 +165,7 @@ export function Settings() {
 
       <Reveal delay={0.1}>
         <form onSubmit={handlePasswordSubmit} className="panel mt-6 space-y-4 rounded-2xl p-6">
-          <h2 className="text-sm font-semibold text-white">Change password</h2>
+          <h2 className="text-sm font-semibold text-ink">Change password</h2>
           {passwordError && (
             <div className="rounded-lg border border-rose-400/25 bg-rose-400/[0.06] px-4 py-3 text-sm text-rose-300" role="alert">
               {passwordError}
@@ -190,9 +190,9 @@ export function Settings() {
       <Reveal delay={0.15}>
         <div className="panel mt-6 rounded-2xl border-rose-400/20 p-6">
           <h2 className="text-sm font-semibold text-rose-300">Danger zone</h2>
-          <p className="mt-1 text-sm text-white/45">
+          <p className="mt-1 text-sm text-ink/45">
             Permanently delete all your notes and sign you out. This cannot be undone.{' '}
-            <span className="text-white/30">
+            <span className="text-ink/30">
               (Fully deleting the account record itself requires an admin action, since that needs
               elevated access the browser never holds — contact support if you need that too.)
             </span>
@@ -207,7 +207,7 @@ export function Settings() {
             >
               Delete all my data
             </ConfirmButton>
-            {deleting && <span className="ml-2 text-xs text-white/40">Deleting…</span>}
+            {deleting && <span className="ml-2 text-xs text-ink/40">Deleting…</span>}
           </div>
         </div>
       </Reveal>

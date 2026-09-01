@@ -31,9 +31,9 @@ export function SharedNote() {
   if (!note) {
     return (
       <div className="mx-auto flex min-h-[60vh] max-w-md flex-col items-center justify-center gap-3 px-4 text-center">
-        <FileX2 className="h-8 w-8 text-white/30" />
-        <p className="text-sm font-medium text-white/70">This note isn't shared (anymore).</p>
-        <p className="text-sm text-white/40">The link may be wrong, or the owner turned sharing off.</p>
+        <FileX2 className="h-8 w-8 text-ink/30" />
+        <p className="text-sm font-medium text-ink/70">This note isn't shared (anymore).</p>
+        <p className="text-sm text-ink/40">The link may be wrong, or the owner turned sharing off.</p>
       </div>
     )
   }
@@ -51,24 +51,24 @@ export function SharedNote() {
             >
               {NOTE_CATEGORY_LABELS[note.category]}
             </span>
-            <span className="text-xs text-white/30">Shared note · Updated {formatDate(note.updatedAt)}</span>
+            <span className="text-xs text-ink/30">Shared note · Updated {formatDate(note.updatedAt)}</span>
           </div>
-          <h1 className="mt-3 text-2xl font-semibold text-white">{note.title}</h1>
+          <h1 className="mt-3 text-2xl font-semibold text-ink">{note.title}</h1>
           {note.tags.length > 0 && (
             <div className="mt-3 flex flex-wrap gap-1.5">
               {note.tags.map((tag) => (
-                <span key={tag} className="rounded-md bg-white/[0.05] px-1.5 py-0.5 text-[11px] text-white/45">
+                <span key={tag} className="rounded-md bg-ink/[0.05] px-1.5 py-0.5 text-[11px] text-ink/45">
                   #{tag}
                 </span>
               ))}
             </div>
           )}
           <div
-            className="prose-note mt-5 text-sm leading-relaxed text-white/80"
-            dangerouslySetInnerHTML={{ __html: note.content.trim() ? renderMarkdown(note.content) : '<p class="text-white/30">No content.</p>' }}
+            className="prose-note mt-5 text-sm leading-relaxed text-ink/80"
+            dangerouslySetInnerHTML={{ __html: note.content.trim() ? renderMarkdown(note.content) : '<p class="text-ink/30">No content.</p>' }}
           />
         </div>
-        <p className="mt-4 text-center text-xs text-white/30">Read-only — shared via CRUD Notes.</p>
+        <p className="mt-4 text-center text-xs text-ink/30">Read-only — shared via CRUD Notes.</p>
       </Reveal>
     </div>
   )
