@@ -1,3 +1,5 @@
+/// <reference types="node" />
+
 /**
  * Sends a welcome email through Resend right after a new user registers.
  * Runs as a Vercel Function so the Resend API key never reaches the browser.
@@ -6,11 +8,7 @@
  * endpoint verifies that token against Supabase (rather than trusting a client-supplied
  * email) before sending, so it can't be used as an open relay to spam arbitrary addresses.
  */
-export default async function handler(request: Request): Promise<Response> {
-  if (request.method !== 'POST') {
-    return new Response('Method not allowed', { status: 405 })
-  }
-
+export async function POST(request: Request): Promise<Response> {
   let body: { accessToken?: string }
   try {
     body = (await request.json()) as { accessToken?: string }
