@@ -33,6 +33,15 @@ export const authService = {
     if (error) throw new Error(error.message)
     if (!data.user) throw new Error('Registration failed. Please try again.')
 
+    // Fire-and-forget: a failed welcome email should never block registration.
+    if (data.session) {
+      fetch('/api/welcome-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ accessToken: data.session.access_token }),
+      }).catch(() => {})
+    }
+
     return { user: toAuthUser(data.user), requiresEmailConfirmation: !data.session }
   },
 
