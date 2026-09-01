@@ -1,5 +1,5 @@
 import { Navigate, useLocation } from 'react-router-dom'
-import type { ReactNode } from 'react'
+import { useMemo, type ReactNode } from 'react'
 import { useAuth } from '@/context/AuthContext'
 import { PageLoader } from '@/components/ui/PageLoader'
 
@@ -7,8 +7,9 @@ import { PageLoader } from '@/components/ui/PageLoader'
 export function ProtectedRoute({ children }: { children: ReactNode }) {
   const { status } = useAuth()
   const location = useLocation()
+  const state = useMemo(() => ({ from: location.pathname }), [location.pathname])
 
   if (status === 'loading') return <PageLoader />
-  if (status === 'unauthenticated') return <Navigate to="/login" replace state={{ from: location.pathname }} />
+  if (status === 'unauthenticated') return <Navigate to="/login" replace state={state} />
   return <>{children}</>
 }
