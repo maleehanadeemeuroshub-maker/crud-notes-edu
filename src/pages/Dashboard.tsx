@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { useAuth } from '@/context/AuthContext'
 import { useToast } from '@/context/ToastContext'
 import { useAppNotes } from '@/hooks/useAppNotes'
+import { useReminderNotifications } from '@/hooks/useReminderNotifications'
 import { useLocalStorageState } from '@/hooks/useLocalStorageState'
 import { Reveal } from '@/components/ui/Reveal'
 import { Button } from '@/components/ui/Button'
@@ -26,6 +27,7 @@ export function Dashboard() {
   const { user, logout } = useAuth()
   const { showToast } = useToast()
   const notesState = useAppNotes()
+  useReminderNotifications(notesState.notes)
   const [editorOpen, setEditorOpen] = useState(false)
   const [editingNote, setEditingNote] = useState<AppNote | null>(null)
   const [viewMode, setViewMode] = useLocalStorageState<NoteViewMode>('crud-notes:view-mode:v1', 'grid')
@@ -218,6 +220,7 @@ export function Dashboard() {
         priority: editingNote.priority,
         color: editingNote.color,
         tags: editingNote.tags,
+        reminderAt: editingNote.reminderAt,
       })
       showToast('Version restored.', 'success')
     } catch (err) {

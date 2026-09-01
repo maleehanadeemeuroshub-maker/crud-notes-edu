@@ -1,5 +1,5 @@
 import type { RefObject } from 'react'
-import { ChevronDown, Pin, Search, Star } from 'lucide-react'
+import { Bell, ChevronDown, Pin, Search, Star } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { NOTE_CATEGORIES, NOTE_CATEGORY_LABELS } from '@/types/appNote'
 import type { NoteFilters, NoteSort, NoteCategory } from '@/types/appNote'
@@ -96,6 +96,21 @@ export function FilterBar({ filters, onChange, searchRef }: FilterBarProps) {
         >
           <Pin className={cn('h-3.5 w-3.5', filters.pinnedOnly && 'fill-current')} />
           Pinned
+        </button>
+
+        <button
+          type="button"
+          onClick={() => onChange({ ...filters, reminderOnly: !filters.reminderOnly })}
+          aria-pressed={filters.reminderOnly}
+          className={cn(
+            'focus-ring flex h-9 items-center gap-1.5 rounded-lg px-3 text-xs font-medium transition',
+            filters.reminderOnly
+              ? 'border border-rose-400/40 bg-rose-400/10 text-rose-300'
+              : 'panel text-ink/60 hover:text-ink/90',
+          )}
+        >
+          <Bell className={cn('h-3.5 w-3.5', filters.reminderOnly && 'fill-current')} />
+          Reminders
         </button>
       </div>
     </div>

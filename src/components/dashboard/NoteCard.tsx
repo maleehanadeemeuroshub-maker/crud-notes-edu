@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion'
-import { Check, ImageIcon, Pencil, Pin, Star, Trash2 } from 'lucide-react'
+import { Bell, Check, ImageIcon, Pencil, Pin, Star, Trash2 } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { formatDate } from '@/utils/date'
+import { formatDate, formatReminder, isOverdue } from '@/utils/date'
 import { CATEGORY_COLORS, PRIORITY_COLORS } from '@/data/noteCategoryTheme'
 import { NOTE_COLOR_HEX } from '@/data/noteColorTheme'
 import { NOTE_CATEGORY_LABELS } from '@/types/appNote'
@@ -87,6 +87,17 @@ export function NoteCard({
                 <span className="flex items-center gap-1 text-[11px] text-ink/35">
                   <ImageIcon className="h-3 w-3" />
                   {note.attachments.length}
+                </span>
+              )}
+              {note.reminderAt && (
+                <span
+                  className={cn(
+                    'flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[11px] font-medium',
+                    isOverdue(note.reminderAt) ? 'bg-rose-400/10 text-rose-300' : 'bg-amber-400/10 text-amber-300',
+                  )}
+                >
+                  <Bell className="h-3 w-3" />
+                  {formatReminder(note.reminderAt)}
                 </span>
               )}
             </div>

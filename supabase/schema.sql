@@ -21,6 +21,7 @@ create table if not exists public.notes (
   favorite boolean not null default false,
   share_id uuid unique,
   share_enabled boolean not null default false,
+  reminder_at timestamptz,
   deleted_at timestamptz,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -29,10 +30,13 @@ create table if not exists public.notes (
 -- Adds the sharing columns for anyone who already had the table from before this update.
 alter table public.notes add column if not exists share_id uuid unique;
 alter table public.notes add column if not exists share_enabled boolean not null default false;
+-- Adds the reminder column for anyone who already had the table from before this update.
+alter table public.notes add column if not exists reminder_at timestamptz;
 
 create index if not exists notes_user_id_idx on public.notes (user_id);
 create index if not exists notes_user_id_deleted_at_idx on public.notes (user_id, deleted_at);
 create index if not exists notes_share_id_idx on public.notes (share_id) where share_id is not null;
+create index if not exists notes_reminder_at_idx on public.notes (user_id, reminder_at) where reminder_at is not null;
 
 alter table public.notes enable row level security;
 

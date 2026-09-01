@@ -66,6 +66,7 @@ export function parseImportedJson(raw: string): NoteDraft[] {
       priority: NOTE_PRIORITIES.includes(raw.priority as never) ? (raw.priority as NoteDraft['priority']) : 'medium',
       color: NOTE_COLORS.includes(raw.color as never) ? (raw.color as NoteDraft['color']) : 'default',
       tags: Array.isArray(raw.tags) ? raw.tags.filter((t): t is string => typeof t === 'string') : [],
+      reminderAt: null,
     }
   })
 }

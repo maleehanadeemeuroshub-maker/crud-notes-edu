@@ -18,6 +18,7 @@ interface NoteRow {
   favorite: boolean
   share_id: string | null
   share_enabled: boolean
+  reminder_at: string | null
   deleted_at: string | null
   created_at: string
   updated_at: string
@@ -46,6 +47,7 @@ function rowToNote(row: NoteRow): AppNote {
     favorite: row.favorite,
     shareId: row.share_id,
     shareEnabled: row.share_enabled,
+    reminderAt: row.reminder_at,
     deletedAt: row.deleted_at,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
@@ -75,9 +77,10 @@ export const notesService = {
 
   async create(draft: NoteDraft): Promise<AppNote> {
     const userId = await requireUserId()
+    const { reminderAt, ...rest } = draft
     const { data, error } = await supabase
       .from('notes')
-      .insert({ ...draft, user_id: userId })
+      .insert({ ...rest, reminder_at: reminderAt, user_id: userId })
       .select()
       .single()
     if (error) throw new Error(error.message)
@@ -89,14 +92,19 @@ export const notesService = {
     const userId = await requireUserId()
     const { data, error } = await supabase
       .from('notes')
-      .insert(drafts.map((draft) => ({ ...draft, user_id: userId })))
+      .insert(
+        drafts.map(({ reminderAt, ...rest }) => ({ ...rest, reminder_at: reminderAt, user_id: userId })),
+      )
       .select()
     if (error) throw new Error(error.message)
     return (data as NoteRow[]).map(rowToNote)
   },
 
   async update(id: string, patch: Partial<NoteDraft>): Promise<AppNote> {
-    const { data, error } = await supabase.from('notes').update(patch).eq('id', id).select().single()
+    const { reminderAt, ...rest } = patch
+    const payload: Record<string, unknown> = { ...rest }
+    if ('reminderAt' in patch) payload.reminder_at = reminderAt
+    const { data, error } = await supabase.from('notes').update(payload).eq('id', id).select().single()
     if (error) throw new Error(error.message)
     return rowToNote(data as NoteRow)
   },

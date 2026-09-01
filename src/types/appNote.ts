@@ -39,6 +39,7 @@ export interface AppNote {
   favorite: boolean
   shareId: string | null
   shareEnabled: boolean
+  reminderAt: string | null
   deletedAt: string | null
   createdAt: string
   updatedAt: string
@@ -59,6 +60,7 @@ export interface NoteDraft {
   priority: NotePriority
   color: NoteColor
   tags: string[]
+  reminderAt: string | null
 }
 
 export type NoteSort = 'newest' | 'oldest' | 'updated' | 'title-asc' | 'title-desc'
@@ -68,6 +70,7 @@ export interface NoteFilters {
   category: NoteCategory | 'all'
   favoriteOnly: boolean
   pinnedOnly: boolean
+  reminderOnly: boolean
   sort: NoteSort
 }
 
@@ -76,6 +79,7 @@ export const DEFAULT_FILTERS: NoteFilters = {
   category: 'all',
   favoriteOnly: false,
   pinnedOnly: false,
+  reminderOnly: false,
   sort: 'newest',
 }
 

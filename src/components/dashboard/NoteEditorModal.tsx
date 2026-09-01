@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { Loader2, Printer, X } from 'lucide-react'
+import { Bell, BellOff, Loader2, Printer, X } from 'lucide-react'
 import { useEscapeKey } from '@/hooks/useEscapeKey'
 import { Button } from '@/components/ui/Button'
 import { ColorSwatchPicker } from '@/components/dashboard/ColorSwatchPicker'
@@ -9,7 +9,7 @@ import { RichTextToolbar } from '@/components/dashboard/RichTextToolbar'
 import { ShareSection } from '@/components/dashboard/ShareSection'
 import { HistorySection } from '@/components/dashboard/HistorySection'
 import { renderMarkdown } from '@/lib/markdown'
-import { formatDate } from '@/utils/date'
+import { formatDate, toDatetimeLocalValue } from '@/utils/date'
 import { cn } from '@/lib/utils'
 import { NOTE_CATEGORIES, NOTE_CATEGORY_LABELS, NOTE_PRIORITIES } from '@/types/appNote'
 import type { AppNote, NoteCategory, NoteColor, NoteDraft, NotePriority, NoteVersion } from '@/types/appNote'
@@ -26,7 +26,15 @@ interface NoteEditorModalProps {
   onRestoreVersion: (version: NoteVersion) => Promise<void>
 }
 
-const EMPTY_DRAFT: NoteDraft = { title: '', content: '', category: 'personal', priority: 'medium', color: 'default', tags: [] }
+const EMPTY_DRAFT: NoteDraft = {
+  title: '',
+  content: '',
+  category: 'personal',
+  priority: 'medium',
+  color: 'default',
+  tags: [],
+  reminderAt: null,
+}
 
 export function NoteEditorModal({
   open,
@@ -46,6 +54,7 @@ export function NoteEditorModal({
   const [priority, setPriority] = useState<NotePriority>('medium')
   const [color, setColor] = useState<NoteColor>('default')
   const [tagsInput, setTagsInput] = useState('')
+  const [reminderInput, setReminderInput] = useState('')
   const [tab, setTab] = useState<'write' | 'preview'>('write')
   const [titleError, setTitleError] = useState<string | null>(null)
   const [saving, setSaving] = useState(false)
@@ -61,6 +70,7 @@ export function NoteEditorModal({
     setPriority(source.priority)
     setColor(source.color)
     setTagsInput(source.tags.join(', '))
+    setReminderInput(source.reminderAt ? toDatetimeLocalValue(source.reminderAt) : '')
     setTitleError(null)
     setTab('write')
   }, [open, note])
@@ -83,10 +93,18 @@ export function NoteEditorModal({
           .split(',')
           .map((t) => t.trim())
           .filter(Boolean),
+        reminderAt: reminderInput ? new Date(reminderInput).toISOString() : null,
       })
       onClose()
     } finally {
       setSaving(false)
+    }
+  }
+
+  function handleReminderChange(value: string) {
+    setReminderInput(value)
+    if (value && typeof Notification !== 'undefined' && Notification.permission === 'default') {
+      Notification.requestPermission()
     }
   }
 
@@ -279,6 +297,33 @@ export function NoteEditorModal({
                     placeholder="e.g. urgent, meeting, follow-up"
                     className="focus-ring panel h-11 w-full rounded-lg px-3 text-sm text-ink placeholder:text-ink/35 focus:border-indigo-400/50 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.14)]"
                   />
+                </div>
+
+                <div>
+                  <label htmlFor="note-reminder" className="mb-1.5 flex items-center gap-1.5 text-xs font-medium text-ink/60">
+                    <Bell className="h-3.5 w-3.5" />
+                    Reminder
+                  </label>
+                  <div className="flex gap-2">
+                    <input
+                      id="note-reminder"
+                      type="datetime-local"
+                      value={reminderInput}
+                      onChange={(e) => handleReminderChange(e.target.value)}
+                      className="focus-ring panel h-11 w-full rounded-lg px-3 text-sm text-ink focus:border-indigo-400/50 focus:shadow-[0_0_0_4px_rgba(99,102,241,0.14)]"
+                    />
+                    {reminderInput && (
+                      <button
+                        type="button"
+                        onClick={() => setReminderInput('')}
+                        aria-label="Clear reminder"
+                        title="Clear reminder"
+                        className="focus-ring flex h-11 w-11 shrink-0 items-center justify-center rounded-lg text-ink/45 transition hover:bg-ink/[0.06] hover:text-ink"
+                      >
+                        <BellOff className="h-4 w-4" />
+                      </button>
+                    )}
+                  </div>
                 </div>
 
                 <div>

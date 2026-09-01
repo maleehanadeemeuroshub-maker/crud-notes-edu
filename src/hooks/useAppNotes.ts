@@ -198,6 +198,7 @@ export function useAppNotes(): UseAppNotesResult {
       if (filters.category !== 'all' && note.category !== filters.category) return false
       if (filters.favoriteOnly && !note.favorite) return false
       if (filters.pinnedOnly && !note.pinned) return false
+      if (filters.reminderOnly && !note.reminderAt) return false
       if (!query) return true
       return (
         note.title.toLowerCase().includes(query) ||
