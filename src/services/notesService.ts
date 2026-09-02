@@ -68,7 +68,8 @@ async function requireUserId(): Promise<string> {
 
 export const notesService = {
   async list(trashed = false): Promise<AppNote[]> {
-    let query = supabase.from('notes').select('*')
+    const userId = await requireUserId()
+    let query = supabase.from('notes').select('*').eq('user_id', userId)
     query = trashed ? query.not('deleted_at', 'is', null) : query.is('deleted_at', null)
     const { data, error } = await query.order('created_at', { ascending: false })
     if (error) throw new Error(error.message)
